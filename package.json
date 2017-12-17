@@ -11,7 +11,7 @@
     "postinstall": "babel src -d dist",
     "test": "jest --watch --coverage"
   },
-  "author": "Kennetcd Dh Christensen",
+  "author": "Kenneth Christensen",
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.26.0",
