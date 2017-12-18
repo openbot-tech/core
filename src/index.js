@@ -1,6 +1,11 @@
 import 'babel-polyfill'
-import { Observable } from 'rxjs'
+import { Subject } from 'rxjs'
+import './data'
 
-const interval = Observable.interval(10000)
+const subject = new Subject()
 
-interval.subscribe(() => console.log('tick'))
+subject.subscribe((e) => {
+  if (e.type === 'data') console.log('DATA', e.data)
+})
+
+export default subject
