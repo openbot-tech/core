@@ -1,6 +1,6 @@
 // TODO handles order management and executes the broker event
-const allocatePortfolio = (signalData, eventLoop) => {
+const portfolioManager = (signalData, eventLoop) => {
   console.log('allocating....')
 }
 
-export default allocatePortfolio
+export default portfolioManager
