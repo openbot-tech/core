@@ -1,6 +1,6 @@
 import 'babel-polyfill'
 import { Subject } from 'rxjs'
-import './data'
+import './market'
 
 const subject = new Subject()
 
