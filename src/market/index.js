@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Observable } from 'rxjs'
 import subject from '../'
 
-const type = 'data'
+const type = 'market'
 const dataUrl = 'https://api.kraken.com/0/public/OHLC?pair=EOSETH'
 
 const request = axios.get(dataUrl)
