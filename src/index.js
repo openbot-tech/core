@@ -1,11 +1,16 @@
 import 'babel-polyfill'
 import { Subject } from 'rxjs'
-import './market'
+import getMarketData from './market'
+import runStrategy from './strategy'
+import allocatePortfolio from './portfolio'
 
-const subject = new Subject()
+const eventLoop = new Subject()
 
-subject.subscribe((e) => {
-  if (e.type === 'market') console.log('market', e.data)
+// function that handles fetching marketdata and return event
+getMarketData(eventLoop)
+
+eventLoop.subscribe((e) => {
+  if (e.type === 'market') runStrategy(e.data, eventLoop)
+  if (e.type === 'signal') allocatePortfolio(e.data, eventLoop)
+  if (e.type === 'order') console.log('order') // TODO order event from portfolio
 })
-
-export default subject
