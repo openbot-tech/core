@@ -10,4 +10,4 @@ const request = axios.get(dataUrl)
 const requestInterval = Observable.timer(0, 5000)
   .flatMap(() => Observable.fromPromise(request))
 
-requestInterval.subscribe(res => subject.next({ type, data: res.data.result.EOSETH[0] }))
+requestInterval.subscribe(res => subject.next({ type, data: res.data.result.EOSETH.reverse()[0] }))
