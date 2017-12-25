@@ -43,8 +43,6 @@ const createDripDataObservable = OHLCData => (
 
 export const dripObservable = (promise, ObservableFunc = Observable.fromPromise) =>
   ObservableFunc(promise)
-    .flatMap(data => createDripDataObservable(data.data && data.data.result && data.data.result[180]
-      ? data.data.result[180]
-      : data))
+    .flatMap(data => createDripDataObservable(data.data.result[180]))
 
 export default dripObservable(request)

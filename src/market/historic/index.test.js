@@ -8,7 +8,7 @@ describe('Historic market data', () => {
     const lhsMarble = 'x'
     const expected = '(abc)'
 
-    const expectedInput = { x: ['a', 'b', 'c'] }
+    const expectedInput = { x: { data: { result: { 180: ['a', 'b', 'c'] } } } }
     const expectedMap = {
       a: ['a'],
       b: ['a', 'b'],
