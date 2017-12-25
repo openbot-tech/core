@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1514239909689" clover="3.2.0">
+  <project timestamp="1514239909689" name="All files">
+    <metrics statements="9" coveredstatements="9" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="4" elements="16" coveredelements="15" complexity="0" loc="9" ncloc="9" packages="1" files="1" classes="1">
+      <file name="index.js" path="/home/rootkc/Documents/code/rxjs-trading-bot/src/market/historic/index.js">
+        <metrics statements="9" coveredstatements="9" conditionals="3" coveredconditionals="2" methods="4" coveredmethods="4"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="44" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="1" type="cond" truecount="1" falsecount="1"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>

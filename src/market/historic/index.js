@@ -36,11 +36,15 @@ const request = axios.get(
   { params: { after } },
 )
 
-const requestObservable = Observable.fromPromise(request)
+const createDripDataObservable = OHLCData => (
+  Observable.range(1, OHLCData.length)
+    .map(t => OHLCData.slice(0, t))
+)
 
-// TODO fetch data and then transform to drip data for event loop
-const dripObservable = requestObservable
-  .map(data => data)
+export const dripObservable = (promise, ObservableFunc = Observable.fromPromise) =>
+  ObservableFunc(promise)
+    .flatMap(data => createDripDataObservable(data.data && data.data.result && data.data.result[180]
+      ? data.data.result[180]
+      : data))
 
-
-export default dripObservable
+export default dripObservable(request)

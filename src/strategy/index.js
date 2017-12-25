@@ -2,7 +2,7 @@
 const runStrategy = (marketData, eventLoop) => {
   const type = 'signal'
 
-  console.log(marketData.reverse()[0])
+  console.log(marketData)
 }
 
 export default runStrategy
