@@ -1,4 +1,5 @@
 import { TestScheduler, Observable } from 'rxjs'
+import { TIME_FRAME } from '../../config'
 import { dripObservable } from '.'
 
 describe('Historic market data', () => {
@@ -8,7 +9,7 @@ describe('Historic market data', () => {
     const lhsMarble = 'x'
     const expected = '(abc)'
 
-    const lhsInput = { x: { data: { result: { 180: ['a', 'b', 'c'] } } } }
+    const lhsInput = { x: { data: { result: { [TIME_FRAME]: ['a', 'b', 'c'] } } } }
     const expectedMap = {
       a: ['a'],
       b: ['a', 'b'],

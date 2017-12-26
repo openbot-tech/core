@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs'
 import axios from 'axios'
 import moment from 'moment'
+import { TIME_FRAME } from '../../config'
 
 /*
 Time periods in seconds
@@ -43,6 +44,6 @@ const createDripDataObservable = OHLCData => (
 
 export const dripObservable = (promise, ObservableFunc = Observable.fromPromise) =>
   ObservableFunc(promise)
-    .flatMap(data => createDripDataObservable(data.data.result[180]))
+    .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME]))
 
 export default dripObservable(request)
