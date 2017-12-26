@@ -1,9 +1,13 @@
 import { toMarketDataObject } from './utils'
+import MACCI from './strategies/MA-CCI'
+
 // TODO takes data from market and returns an order event
-const runStrategy = (marketData, eventLoop) => {
+const runStrategy = async (marketData, eventLoop) => {
   const type = 'signal'
   const marketDataObj = toMarketDataObject(marketData)
-  console.log(marketDataObj)
+
+  const data = await MACCI(marketDataObj)
+  console.log(data.result)
 }
 
 export default runStrategy
