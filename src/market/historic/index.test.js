@@ -8,14 +8,14 @@ describe('Historic market data', () => {
     const lhsMarble = 'x'
     const expected = '(abc)'
 
-    const expectedInput = { x: { data: { result: { 180: ['a', 'b', 'c'] } } } }
+    const lhsInput = { x: { data: { result: { 180: ['a', 'b', 'c'] } } } }
     const expectedMap = {
       a: ['a'],
       b: ['a', 'b'],
       c: ['a', 'b', 'c'],
     }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, expectedInput)
+    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
     const actual$ = dripObservable(lhs$, Observable.from)
 

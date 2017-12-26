@@ -7,7 +7,7 @@ const getMarketData = (eventLoop) => {
   const marketObservable = backtest ? historicObservable : liveObservable
 
   marketObservable.subscribe(res =>
-    eventLoop.next({ type, data: res }))
+    eventLoop.next({ type, action: res }))
 }
 
 export default getMarketData
