@@ -1,4 +1,7 @@
-import { toMarketDataObject } from '.'
+import {
+  toMarketDataObject,
+  lineIsSlopingUpwards,
+} from '.'
 
 describe('Stragedy Utils', () => {
   it('should convert array market data to an object containing arrays', () => {
@@ -39,5 +42,37 @@ describe('Stragedy Utils', () => {
       volume: [22.70132, 27.408403, 10.470616],
     }
     expect(toMarketDataObject(marketDataArr)).toEqual(expectedmarketDataObject)
+  })
+
+  it('should check if the last x elements of a line is sloping upwards minus the last one', () => {
+    const arrIsSlopingUpwards = [
+      13.907000000000007,
+      13.908000000000007,
+      13.923100000000009,
+      13.933200000000008,
+      13.940650000000009,
+      13.94025000000001,
+    ]
+
+    const arrIsntSlopingUpwards = [
+      13.907000000000007,
+      13.908000000000007,
+      13.923100000000009,
+      13.933200000000008,
+      13.910650000000009,
+      13.92025000000001,
+    ]
+
+    const last3ElementsSlopingUpwards = [
+      15.908000000000007,
+      14.923100000000009,
+      13.933200000000008,
+      13.940650000000009,
+      17.94025000000001,
+    ]
+
+    expect(lineIsSlopingUpwards(arrIsSlopingUpwards)).toBeTruthy()
+    expect(lineIsSlopingUpwards(arrIsntSlopingUpwards)).toBeFalsy()
+    expect(lineIsSlopingUpwards(last3ElementsSlopingUpwards, 3)).toBeTruthy()
   })
 })

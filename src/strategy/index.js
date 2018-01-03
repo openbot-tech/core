@@ -6,8 +6,7 @@ const runStrategy = async (marketData, eventLoop) => {
   const type = 'signal'
   const marketDataObj = toMarketDataObject(marketData)
 
-  const data = await MACCI(marketDataObj)
-  console.log(data.result)
+  MACCI(marketDataObj).subscribe(data => eventLoop.next({ type, action: data }))
 }
 
 export default runStrategy
