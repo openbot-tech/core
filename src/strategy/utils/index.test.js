@@ -35,6 +35,7 @@ describe('Stragedy Utils', () => {
       ],
     ]
     const expectedmarketDataObject = {
+      date: [1514315520, 1514315700, 1514315880],
       open: [15868.76, 15854.5, 15795.03],
       close: [15854.51, 15795.02, 15795.03],
       high: [15868.77, 15854.5, 15795.03],

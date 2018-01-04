@@ -33,7 +33,7 @@ const now = moment()
 const after = now.subtract(7, 'd').unix()
 
 const request = axios.get(
-  'https://api.cryptowat.ch/markets/gdax/btcusd/ohlc',
+  'https://api.cryptowat.ch/markets/bitfinex/omgusd/ohlc',
   { params: { after } },
 )
 
@@ -45,5 +45,6 @@ const createDripDataObservable = OHLCData => (
 export const dripObservable = (promise, ObservableFunc = Observable.fromPromise) =>
   ObservableFunc(promise)
     .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME]))
+    .catch(err => console.log(err))
 
 export default dripObservable(request)

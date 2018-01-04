@@ -8,6 +8,7 @@
   "rules": {
     "func-names": ["error", "never"],
     "semi": [2, "never"],
+    "object-curly-newline": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

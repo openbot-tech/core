@@ -4,25 +4,34 @@ const indicatorSettings = marketData => [
   {
     name: 'CCI',
     startIdx: 0,
-    endIdx: marketData.close.length - 1,
+    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
     optInTimePeriod: 5,
-    high: marketData.high,
-    low: marketData.low,
-    close: marketData.close,
+    high: marketData.high.slice(0, -1),
+    low: marketData.low.slice(0, -1),
+    close: marketData.close.slice(0, -1),
   },
   {
     name: 'SMA',
     startIdx: 0,
-    endIdx: marketData.close.length - 1,
+    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
     optInTimePeriod: 20,
-    inReal: marketData.close,
+    inReal: marketData.close.slice(0, -1),
   },
   {
     name: 'SMA',
     startIdx: 0,
-    endIdx: marketData.close.length - 1,
+    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
     optInTimePeriod: 40,
-    inReal: marketData.close,
+    inReal: marketData.close.slice(0, -1),
+  },
+  {
+    name: 'ATR',
+    startIdx: 0,
+    endIdx: marketData.close.length >= 2 ? marketData.close.length - 2 : 0,
+    optInTimePeriod: 14,
+    high: marketData.high.slice(0, -1),
+    low: marketData.low.slice(0, -1),
+    close: marketData.close.slice(0, -1),
   },
 ]
 
@@ -34,31 +43,54 @@ const indicatorSettings = marketData => [
  * 3. CCI < -100
  * 4. The low of the candlestick touches or goes below 20 SMA
  * 5. The close of the candlestick is above 40 SMA
+ * 6. Buy when price is one pip higher prior candlestick high
  */
 
 const buy = (indicatorsData, marketData) => {
   const { CCI5, SMA20, SMA40 } = indicatorsData
-  const { low, close } = marketData
+  const { low, close, high, date } = marketData
 
   const lastCCI5 = [...CCI5.result.outReal].pop()
   const lastSMA20 = [...SMA20.result.outReal].pop()
   const lastSMA40 = [...SMA40.result.outReal].pop()
+  const secondLastLow = [...low.slice(0, -1)].pop()
+  const secondLastClose = [...close.slice(0, -1)].pop()
+  const secondLastHigh = [...high.slice(0, -1)].pop()
   const lastLow = [...low].pop()
+  const lastHigh = [...high].pop()
   const lastClose = [...close].pop()
 
   const SMA20And40IsSlopingUpwards = lineIsSlopingUpwards(SMA20.result.outReal)
     && lineIsSlopingUpwards(SMA40.result.outReal)
   const SMA20IsAboveSMA40 = lastSMA20 > lastSMA40
   const CCI5IsLessThanMinus100 = lastCCI5 < -100
-  const lowOfCandleStickIsEqualOrLowerThanSMA20 = lastLow <= lastSMA20
-  const closeOfCandleStickIsAboveSMA40 = lastClose > lastSMA40
+  const lowOfCandleStickIsEqualOrLowerThanSMA20 = lastSMA20 >= secondLastLow
+  const closeOfCandleStickIsAboveSMA40 = secondLastClose > lastSMA40
+  const buyWhenPriceIsOnePipHigher = lastHigh > secondLastHigh
 
   if (SMA20And40IsSlopingUpwards &&
       SMA20IsAboveSMA40 &&
       CCI5IsLessThanMinus100 &&
       lowOfCandleStickIsEqualOrLowerThanSMA20 &&
-      closeOfCandleStickIsAboveSMA40) {
-    return { type: 'buy' }
+      closeOfCandleStickIsAboveSMA40 &&
+      buyWhenPriceIsOnePipHigher) {
+    return { type: 'buy', date: [...date].pop(), lastLow, lastClose, lastCCI5, lastSMA20, lastSMA40 }
+  }
+  return null
+}
+
+const sell = (indicatorsData, marketData, multiplier = 1.5) => {
+  const { ATR14 } = indicatorsData
+  const { close, date } = marketData
+
+  const lastATR14 = [...ATR14.result.outReal].pop()
+  const secondLastClose = [...close.slice(0, 1)].pop()
+  const lastClose = [...close].pop()
+
+  const ATR14withMultiplier = lastATR14 * multiplier
+  const stopLoss = secondLastClose - ATR14withMultiplier
+  if (lastClose < stopLoss) {
+    return { stopLoss, date: [...date].pop() }
   }
   return null
 }
@@ -66,6 +98,7 @@ const buy = (indicatorsData, marketData) => {
 const MACCI = marketData => (
   getIndicatorsObservable(marketData, indicatorSettings)
     .map(indicators => buy(indicators, marketData))
+    .catch(err => console.log(err))
 )
 
 export default MACCI
