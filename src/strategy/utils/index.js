@@ -20,7 +20,7 @@ export const toMarketDataObject = marketData => (
   })
 )
 
-export const lineIsSlopingUpwards = (line, lastXElements = 15) => {
+export const lineIsSlopingUpwards = (line, lastXElements = 5) => {
   const arr = line.slice(0, -1).slice((lastXElements - 1) * -1)
   return arr.every((num, idx) => (idx ? num >= arr[idx - 1] : true))
 }

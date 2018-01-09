@@ -76,7 +76,7 @@ const buy = (indicatorsData, marketData) => {
       buyWhenPriceIsOnePipHigher) {
     return { type: 'buy', date: [...date].pop(), lastLow, lastClose, lastCCI5, lastSMA20, lastSMA40 }
   }
-  return null
+  return false
 }
 
 const sell = (indicatorsData, marketData, multiplier = 1.5) => {
@@ -84,20 +84,21 @@ const sell = (indicatorsData, marketData, multiplier = 1.5) => {
   const { close, date } = marketData
 
   const lastATR14 = [...ATR14.result.outReal].pop()
-  const secondLastClose = [...close.slice(0, 1)].pop()
+  const secondLastClose = [...close.slice(0, -1)].pop()
   const lastClose = [...close].pop()
 
   const ATR14withMultiplier = lastATR14 * multiplier
   const stopLoss = secondLastClose - ATR14withMultiplier
   if (lastClose < stopLoss) {
-    return { stopLoss, date: [...date].pop() }
+    return { lastATR14, stopLoss, date: [...date].pop() }
   }
-  return null
+  return false
 }
 
 const MACCI = marketData => (
   getIndicatorsObservable(marketData, indicatorSettings)
-    .map(indicators => buy(indicators, marketData))
+    .flatMap(indicators => [buy(indicators, marketData), sell(indicators, marketData)])
+    .filter(signal => !!signal === true)
     .catch(err => console.log(err))
 )
 
