@@ -7,7 +7,7 @@ const runStrategy = async (marketData, eventLoop) => {
 
   const marketDataObj = toMarketDataObject(marketData)
 
-  MACCI(marketDataObj).subscribe(data => eventLoop.next({ type, action: data }))
+  MACCI(marketDataObj).subscribe(payload => eventLoop.next({ type, payload }))
 }
 
 export default runStrategy

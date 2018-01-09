@@ -11,7 +11,7 @@ const eventLoop = new Subject()
 getMarketData(eventLoop)
 
 eventLoop.subscribe((e) => {
-  if (e.type === 'market') runStrategy(e.action, eventLoop)
-  if (e.type === 'signal') portfolioManager(e.action, eventLoop)
+  if (e.type === 'market') runStrategy(e.payload, eventLoop)
+  if (e.type === 'signal') portfolioManager(e.payload, eventLoop)
   if (e.type === 'order') console.log('order') // TODO order event from portfolio
 })
