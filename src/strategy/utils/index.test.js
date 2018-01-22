@@ -1,6 +1,8 @@
+import { TestScheduler, Observable } from 'rxjs'
 import {
   toMarketDataObject,
   lineIsSlopingUpwards,
+  getIndicatorsObservable,
 } from '.'
 
 describe('Stragedy Utils', () => {
@@ -75,5 +77,37 @@ describe('Stragedy Utils', () => {
     expect(lineIsSlopingUpwards(arrIsSlopingUpwards)).toBeTruthy()
     expect(lineIsSlopingUpwards(arrIsntSlopingUpwards)).toBeFalsy()
     expect(lineIsSlopingUpwards(last3ElementsSlopingUpwards, 3)).toBeTruthy()
+  })
+  it('should drip historic data so it acts like real time', () => {
+    const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
+    // setup
+    const expected = '(a|)'
+
+    const indicatorSettingsMock = () => [
+      { name: 'SMA', optInTimePeriod: 14, data: [14] },
+      { name: 'SMA', optInTimePeriod: 28, data: [28] },
+    ]
+
+    const marketDataMock = [
+      { close: 1 },
+    ]
+
+    const indicatorFunctionMock = data => Observable.of(data)
+
+    const expectedMap = {
+      a: {
+        SMA14: { name: 'SMA14', optInTimePeriod: 14, data: [14] },
+        SMA28: { name: 'SMA28', optInTimePeriod: 28, data: [28] },
+      },
+    }
+
+    const actual$ = getIndicatorsObservable(
+      marketDataMock,
+      indicatorSettingsMock,
+      indicatorFunctionMock,
+    )
+
+    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.flush()
   })
 })

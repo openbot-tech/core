@@ -35,6 +35,6 @@ export const getIndicatorsObservable = (
 ) =>
   Observable.forkJoin(indicatorSettings(marketData).map(indicatorData =>
     indicatorFunction(indicatorData)
-      .map(promiseData => ({ name: `${indicatorData.name}${indicatorData.optInTimePeriod}`, ...promiseData }))))
+      .map(promiseData => ({ ...promiseData, name: `${indicatorData.name}${indicatorData.optInTimePeriod}` }))))
     .map(forkJoinData =>
       forkJoinData.reduce((obj, item) => ({ ...obj, [item.name]: { ...item } }), {}))
