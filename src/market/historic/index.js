@@ -33,7 +33,7 @@ const now = moment()
 const after = now.subtract(20, 'd').unix()
 
 const request = axios.get(
-  'https://api.cryptowat.ch/markets/bitfinex/omgusd/ohlc',
+  'https://api.cryptowat.ch/markets/bitfinex/btcusd/ohlc',
   { params: { after } },
 )
 

@@ -31,6 +31,7 @@
     "axios": "^0.17.1",
     "babel-polyfill": "^6.23.0",
     "moment": "^2.20.1",
+    "node-bittrex-api": "^0.8.1",
     "rxjs": "^5.5.5",
     "talib": "^1.0.3"
   }
