@@ -1,2 +1,2 @@
-export const TIME_FRAME = 14400
+export const TIME_FRAME = 180
 export const BACKTEST = false

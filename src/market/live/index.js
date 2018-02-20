@@ -10,23 +10,16 @@ bittrex.options({
   apisecret: BITTREX_API_SECRET,
 })
 
-const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe(['BTC-ETH'], h))
+const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe(['USDT-BTC'], h))
 const clientCallBackObservable = Observable.fromEventPattern(h => bittrex.websockets.client(h))
 
 const socketObservable = clientCallBackObservable
+  .do(() => console.log('socket connected!'))
   .flatMap(() => subscribeObservable)
   .filter(subscribtionData => subscribtionData && subscribtionData.M === 'updateExchangeState')
   .flatMap(exchangeState => Observable.from(exchangeState.A))
   .filter(marketData => marketData.Fills.length > 0)
   .map(marketData => marketData && marketData.Fills)
-
-
-export const dateDifferenceInSeconds = (exchangeArr) => {
-  const startDate = moment(exchangeArr[0].TimeStamp)
-  const endDate = moment([...exchangeArr].pop().TimeStamp)
-  const duration = moment.duration(endDate.diff(startDate))
-  return duration.asSeconds()
-}
 
 export const createCandle = (fillsData) => {
   const highPrice = fillsData.reduce((prev, curr) => (prev.Rate > curr.Rate ? prev : curr)).Rate
@@ -39,16 +32,15 @@ export const createCandle = (fillsData) => {
   return [closeTime, openPrice, highPrice, lowPrice, closePrice, volume]
 }
 
-// TODO repeat also repeats the outer Observable socketObservable
-export const candleObservable = (promise, timeFrame = TIME_FRAME) =>
+export const candleObservable = (promise, timeFrame = TIME_FRAME, testScheduler = null) =>
   promise
-    .scan((acc, curr) => [...acc, ...curr])
-    .skipWhile(exchangeData => dateDifferenceInSeconds(exchangeData) < timeFrame)
-    // take first after skipping
-    .first()
-    // first will complete the stream, so we repeat it
-    .repeat()
-    // we create candle data from the timeFrame array
+    // buffer for timeFrame in milliseconds and then emit candle data
+    .bufferTime(timeFrame * 1000, testScheduler)
+    // flatten array
+    .map(fillsArrayOfArrays => fillsArrayOfArrays.reduce((acc, arr) => [...acc, ...arr]))
+    // create candle
     .map(fillsData => createCandle(fillsData))
+    // accumulate candles
+    .scan((acc, curr) => [...acc, curr], [])
 
 export default candleObservable(socketObservable, 60)

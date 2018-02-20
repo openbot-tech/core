@@ -30,7 +30,7 @@ Data structure
 */
 
 const now = moment()
-const after = now.subtract(20, 'd').unix()
+const after = now.subtract(5, 'd').unix()
 
 const request = axios.get(
   'https://api.cryptowat.ch/markets/bitfinex/btcusd/ohlc',
