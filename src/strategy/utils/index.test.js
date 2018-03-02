@@ -78,7 +78,7 @@ describe('Stragedy Utils', () => {
     expect(lineIsSlopingUpwards(arrIsntSlopingUpwards)).toBeFalsy()
     expect(lineIsSlopingUpwards(last3ElementsSlopingUpwards, 3)).toBeTruthy()
   })
-  it('should drip historic data so it acts like real time', () => {
+  it('should run indicators and return data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
     const expected = '(a|)'

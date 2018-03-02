@@ -13,13 +13,18 @@ bittrex.options({
 const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe(['USDT-BTC'], h))
 const clientCallBackObservable = Observable.fromEventPattern(h => bittrex.websockets.client(h))
 
-const socketObservable = clientCallBackObservable
-  .do(() => console.log('socket connected!'))
-  .flatMap(() => subscribeObservable)
-  .filter(subscribtionData => subscribtionData && subscribtionData.M === 'updateExchangeState')
-  .flatMap(exchangeState => Observable.from(exchangeState.A))
-  .filter(marketData => marketData.Fills.length > 0)
-  .map(marketData => marketData && marketData.Fills)
+export const socketObservable = (
+  clientCallback = clientCallBackObservable,
+  subscribe = subscribeObservable,
+) =>
+  clientCallback
+    .do(() => console.log('socket connected!'))
+    .flatMap(() => subscribe)
+    .filter(subscribtionData => subscribtionData && subscribtionData.M === 'updateExchangeState')
+    .flatMap(exchangeState => Observable.from(exchangeState.A))
+    .filter(marketData => marketData.Fills.length > 0)
+    .map(marketData => marketData && marketData.Fills)
+    .retry()
 
 export const createCandle = (fillsData) => {
   const highPrice = fillsData.reduce((prev, curr) => (prev.Rate > curr.Rate ? prev : curr)).Rate
@@ -36,11 +41,15 @@ export const candleObservable = (promise, timeFrame = TIME_FRAME, testScheduler 
   promise
     // buffer for timeFrame in milliseconds and then emit candle data
     .bufferTime(timeFrame * 1000, testScheduler)
+    // if we have no data we continue
+    .filter(fillsArrayOfArrays => fillsArrayOfArrays && fillsArrayOfArrays.length > 0)
     // flatten array
     .map(fillsArrayOfArrays => fillsArrayOfArrays.reduce((acc, arr) => [...acc, ...arr]))
     // create candle
     .map(fillsData => createCandle(fillsData))
     // accumulate candles
     .scan((acc, curr) => [...acc, curr], [])
+    // we retry forever
+    .retry()
 
-export default candleObservable(socketObservable, 60)
+export default candleObservable(socketObservable())
