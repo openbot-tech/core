@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs'
 import axios from 'axios'
 import moment from 'moment'
-import { TIME_FRAME } from '../../config'
+import { TIME_FRAME, BACKTEST_DAYS } from '../../config'
 
 /*
 Time periods in seconds
@@ -30,10 +30,10 @@ Data structure
 */
 
 const now = moment()
-const after = now.subtract(5, 'd').unix()
+const after = now.subtract(BACKTEST_DAYS, 'd').unix()
 
 const request = axios.get(
-  'https://api.cryptowat.ch/markets/bitfinex/btcusd/ohlc',
+  'https://api.cryptowat.ch/markets/bitfinex/omgbtc/ohlc',
   { params: { after } },
 )
 

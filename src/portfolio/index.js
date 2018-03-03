@@ -1,7 +1,16 @@
-import moment from 'moment'
-// TODO handles order management and executes the broker event
-const portfolioManager = (signalData, eventLoop) => {
-  console.log('allocating....', signalData, signalData && moment.utc(signalData.date * 1000).format())
-}
+import { EventEmitter } from 'events'
+import { Observable } from 'rxjs'
+
+const type = 'order'
+
+const portfolioEvent = new EventEmitter()
+
+const portfolioManager = (signalData, eventLoop) => portfolioEvent.emit('portfolioData', { signalData, eventLoop })
+
+const portfolioEventObservable = Observable.fromEventPattern(h => portfolioEvent.on('portfolioData', h))
+
+portfolioEventObservable
+  .distinctUntilChanged(null, ({ signalData }) => signalData.type)
+  .subscribe(({ eventLoop, signalData }) => eventLoop.next({ type, payload: signalData }))
 
 export default portfolioManager

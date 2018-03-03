@@ -4,6 +4,7 @@ import { Subject } from 'rxjs'
 import getMarketData from './market'
 import runStrategy from './strategy'
 import portfolioManager from './portfolio'
+import executeOrder from './broker'
 
 const eventLoop = new Subject()
 
@@ -13,5 +14,5 @@ getMarketData(eventLoop)
 eventLoop.subscribe((e) => {
   if (e.type === 'market') runStrategy(e.payload, eventLoop)
   if (e.type === 'signal') portfolioManager(e.payload, eventLoop)
-  if (e.type === 'order') console.log('order') // TODO order event from portfolio
+  if (e.type === 'order') executeOrder(e.payload)
 })

@@ -90,7 +90,7 @@ const sell = (indicatorsData, marketData, multiplier = 1.5) => {
   const ATR14withMultiplier = lastATR14 * multiplier
   const stopLoss = secondLastClose - ATR14withMultiplier
   if (lastClose < stopLoss) {
-    return { lastATR14, stopLoss, date: [...date].pop() }
+    return { type: 'sell', lastATR14, stopLoss, date: [...date].pop() }
   }
   return false
 }
