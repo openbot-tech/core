@@ -1,7 +1,8 @@
 import moment from 'moment'
 import bittrex from 'node-bittrex-api'
 import { Observable } from 'rxjs'
-import { TIME_FRAME } from '../../config'
+import { TIME_FRAME, PAIR } from '../../config'
+import { candleQuery } from '../../db'
 
 const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
 
@@ -10,7 +11,7 @@ bittrex.options({
   apisecret: BITTREX_API_SECRET,
 })
 
-const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe(['USDT-BTC'], h))
+const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe([PAIR], h))
 const clientCallBackObservable = Observable.fromEventPattern(h => bittrex.websockets.client(h))
 
 export const socketObservable = (
@@ -33,7 +34,7 @@ export const createCandle = (fillsData) => {
   const openPrice = fillsData[0].Rate
   const closeObj = fillsData.pop()
   const closePrice = closeObj.Rate
-  const closeTime = moment(closeObj.TimeStamp).unix()
+  const closeTime = moment(closeObj.TimeStamp).toDate()
   return [closeTime, openPrice, highPrice, lowPrice, closePrice, volume]
 }
 
@@ -47,8 +48,11 @@ export const candleObservable = (promise, timeFrame = TIME_FRAME, testScheduler 
     .map(fillsArrayOfArrays => fillsArrayOfArrays.reduce((acc, arr) => [...acc, ...arr]))
     // create candle
     .map(fillsData => createCandle(fillsData))
+    // insert into database
+    .flatMap(candle => Observable.fromPromise(candleQuery([PAIR, ...candle])))
     // accumulate candles
     .scan((acc, curr) => [...acc, curr], [])
+    .do(data => console.log(data))
     // we retry forever
     .retry()
 

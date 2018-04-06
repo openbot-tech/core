@@ -1,0 +1,9 @@
+{
+    "dev": {
+        "driver": "pg",
+        "user": "kenneth",
+        "password": "kenneth",
+        "host": "localhost",
+        "database": "rxjs_trading_bot"
+    }
+}
