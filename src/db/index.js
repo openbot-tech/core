@@ -1,7 +1,9 @@
 import { Pool } from 'pg'
-import { dev } from '../config/database.json'
+import { dev, test } from '../config/database.json'
 
-export const pool = new Pool(dev)
+const getDBForEnv = env => (env === 'test' ? test : dev)
+
+export const pool = new Pool(getDBForEnv(process.env.NODE_ENV))
 
 const query = async (text, params) => {
   const queryData = await pool.query(text, params)

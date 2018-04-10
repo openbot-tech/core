@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
     "postinstall": "babel src -d dist",
-    "test": "jest --watch --coverage"
+    "test": "NODE_ENV=test jest --watch --coverage"
   },
   "author": "Kenneth Christensen",
   "devDependencies": {
