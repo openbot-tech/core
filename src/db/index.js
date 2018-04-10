@@ -1,22 +1,35 @@
 import { Pool } from 'pg'
 import { dev } from '../config/database.json'
 
-const pool = new Pool(dev)
+export const pool = new Pool(dev)
 
-const query = (text, params) => (
-  pool.query(text, params)
-)
+const query = async (text, params) => {
+  const queryData = await pool.query(text, params)
+  return queryData.rows
+}
+
+export const sessionQuery = async (params) => {
+  const sessionRow = await query(
+    `INSERT INTO sessions 
+    (name, pair, time_frame, backtest, paper_trade) 
+    values ($1, $2, $3, $4, $5)
+    RETURNING *`,
+    params,
+  )
+  return sessionRow.length > 0 && sessionRow[0] && sessionRow[0].id
+}
+
 
 export const candleQuery = async (params) => {
   await query(
     `INSERT INTO candles 
-    (pair, close_time, open, high, low, close, volume) 
+    (session_id, close_time, open, high, low, close, volume) 
     values ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *`,
     params,
   )
   return query(
-    'SELECT * FROM candles WHERE pair = $1 ',
+    'SELECT close_time, open, high, low, close, volume FROM candles WHERE session_id = $1',
     [params[0]],
   )
 }

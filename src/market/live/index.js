@@ -1,7 +1,7 @@
 import moment from 'moment'
 import bittrex from 'node-bittrex-api'
 import { Observable } from 'rxjs'
-import { TIME_FRAME, PAIR } from '../../config'
+import { TIME_FRAME, PAIR, SESSION_ID } from '../../config'
 import { candleQuery } from '../../db'
 
 const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
@@ -38,7 +38,14 @@ export const createCandle = (fillsData) => {
   return [closeTime, openPrice, highPrice, lowPrice, closePrice, volume]
 }
 
-export const candleObservable = (promise, timeFrame = TIME_FRAME, testScheduler = null) =>
+export const candleQueryObservable = data => Observable.fromPromise(candleQuery(data))
+
+export const candleObservable = (
+  promise,
+  timeFrame = TIME_FRAME,
+  candleQueryFunc = candleQueryObservable,
+  testScheduler = null,
+) =>
   promise
     // buffer for timeFrame in milliseconds and then emit candle data
     .bufferTime(timeFrame * 1000, testScheduler)
@@ -48,11 +55,8 @@ export const candleObservable = (promise, timeFrame = TIME_FRAME, testScheduler 
     .map(fillsArrayOfArrays => fillsArrayOfArrays.reduce((acc, arr) => [...acc, ...arr]))
     // create candle
     .map(fillsData => createCandle(fillsData))
-    // insert into database
-    .flatMap(candle => Observable.fromPromise(candleQuery([PAIR, ...candle])))
-    // accumulate candles
-    .scan((acc, curr) => [...acc, curr], [])
-    .do(data => console.log(data))
+    // insert into database and select
+    .flatMap(candle => candleQueryFunc([SESSION_ID, ...candle]))
     // we retry forever
     .retry()
 

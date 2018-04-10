@@ -17,7 +17,6 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db) {
   return db.createTable('signals', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    type: 'string',
     candle_id: {
       type: 'int',
       foreignKey: {
@@ -29,7 +28,20 @@ exports.up = function(db) {
         },
         mapping: 'id'
       }    
-    }
+    },
+    session_id: {
+      type: 'int',
+      foreignKey: {
+        name: 'signals_session_id_fk',
+        table: 'sessions',
+        rules: {
+          onDelete: 'CASCADE',
+          onUpdate: 'RESTRICT'
+        },
+        mapping: 'id'
+      }    
+    },
+    type: 'string'
   });
 };
 
