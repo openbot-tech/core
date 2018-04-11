@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { TestScheduler, Observable } from 'rxjs'
-import { newSession } from '../../config'
+import { newSession, SESSION_ID } from '../../config'
 import {
   socketObservable,
   candleObservable,
@@ -342,9 +342,9 @@ describe('Live market data', () => {
       open: '0.0925',
       volume: '1',
     }]
-    // TODO there is something funky with sessionId
-    const candleQueryPromise = candleQueryObservable([1, ...testDbCandle]).toPromise()
+
     await newSession()
+    const candleQueryPromise = candleQueryObservable([SESSION_ID, ...testDbCandle]).toPromise()
     await expect(candleQueryPromise).resolves.toEqual(dbCandle)
   })
   it('should post candle to db and return rows from that session for several rows', async () => {
@@ -382,10 +382,10 @@ describe('Live market data', () => {
       open: '0.0926',
       volume: '2',
     }]
-    // TODO there is something funky with sessionId
+
     await newSession()
-    await candleQueryObservable([1, ...testDbCandle1]).toPromise()
-    const candleQueryPromise2 = candleQueryObservable([1, ...testDbCandle2]).toPromise()
+    await candleQueryObservable([SESSION_ID, ...testDbCandle1]).toPromise()
+    const candleQueryPromise2 = candleQueryObservable([SESSION_ID, ...testDbCandle2]).toPromise()
     await expect(candleQueryPromise2).resolves.toEqual(dbCandle)
   })
 })
