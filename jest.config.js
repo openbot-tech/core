@@ -1,3 +1,11 @@
 module.exports = {
-  moduleFileExtensions: ['js', 'jsx', 'json'],
+  moduleFileExtensions: [
+    'js',
+    'json',
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/dist/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/migrations/',
+  ],
 }
