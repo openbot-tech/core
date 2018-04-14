@@ -334,14 +334,9 @@ describe('Live market data', () => {
       1, // volume
     ]
 
-    const dbCandle = [{
-      close: '0.0925',
-      close_time: moment('2018-01-24T19:09:03.063').toDate(),
-      high: '0.0925',
-      low: '0.0925',
-      open: '0.0925',
-      volume: '1',
-    }]
+    const dbCandle = [
+      [1516817343, 0.0925, 0.0925, 0.0925, 0.0925, 1],
+    ]
 
     await newSession()
     const candleQueryPromise = candleQueryObservable([SESSION_ID, ...testDbCandle]).toPromise()
@@ -366,22 +361,10 @@ describe('Live market data', () => {
       2, // volume
     ]
 
-    const dbCandle = [{
-      close: '0.0925',
-      close_time: moment('2018-01-24T19:09:03.063').toDate(),
-      high: '0.0925',
-      low: '0.0925',
-      open: '0.0925',
-      volume: '1',
-    },
-    {
-      close: '0.0926',
-      close_time: moment('2018-01-24T19:10:03.063').toDate(),
-      high: '0.0926',
-      low: '0.0926',
-      open: '0.0926',
-      volume: '2',
-    }]
+    const dbCandle = [
+      [1516817343, 0.0925, 0.0925, 0.0925, 0.0925, 1],
+      [1516817403, 0.0926, 0.0926, 0.0926, 0.0926, 2],
+    ]
 
     await newSession()
     await candleQueryObservable([SESSION_ID, ...testDbCandle1]).toPromise()
