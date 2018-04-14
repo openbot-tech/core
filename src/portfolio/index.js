@@ -10,7 +10,6 @@ const portfolioManager = (signalData, eventLoop) => portfolioEvent.emit('portfol
 const portfolioEventObservable = Observable.fromEventPattern(h => portfolioEvent.on('portfolioData', h))
 
 portfolioEventObservable
-  .do(data => console.log(data))
   .distinctUntilChanged(null, ({ signalData }) => signalData.type)
   .subscribe(({ eventLoop, signalData }) => eventLoop.next({ type, payload: signalData }))
 

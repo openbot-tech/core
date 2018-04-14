@@ -1,7 +1,7 @@
 import { sessionQuery } from '../db'
 
-export const TIME_FRAME = 180
-export const BACKTEST_DAYS = 14
+export const TIME_FRAME = 14400
+export const BACKTEST_DAYS = 200
 export const BACKTEST = true
 export const PAPER_TRADE = true
 export const PAIR = 'USDT-OMG'
