@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-import { toArrayOfArraysData} from '../parser'
+import { toArrayOfArraysData } from '../parser'
 import { dev, test } from '../config/database.json'
 
 const getDBForEnv = env => (env === 'test' ? test : dev)
@@ -37,5 +37,16 @@ export const candleQuery = async (params) => {
   )
   return toArrayOfArraysData(dbCandleData)
 }
+
+export const signalQuery = async params => (
+  query(`INSERT INTO signals (type, candle_id, session_id) 
+    VALUES (
+      $1, 
+      (SELECT id FROM candles 
+        WHERE close_time = $2 
+        AND session_id = $3
+      ),
+      $3)`, params)
+)
 
 export default query
