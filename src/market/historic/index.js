@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs'
 import axios from 'axios'
 import moment from 'moment'
-import { TIME_FRAME, BACKTEST_DAYS } from '../../config'
+import { candleQueryObservable } from '../live'
+import { SESSION_ID, TIME_FRAME, BACKTEST_DAYS } from '../../config'
 
 /*
 Time periods in seconds
@@ -37,14 +38,23 @@ const request = axios.get(
   { params: { after } },
 )
 
-const createDripDataObservable = OHLCData => (
-  Observable.range(1, OHLCData.length)
-    .map(t => OHLCData.slice(0, t))
+const createDripDataObservable = (OHLCData, candleQueryFunc) => (
+  Observable.from(OHLCData)
+    .concatMap((t) => {
+      const candle = [...t].slice(0, 6)
+      candle[0] = moment(candle[0] * 1000).toDate()
+      return candleQueryFunc([SESSION_ID, ...candle])
+    })
 )
 
-export const dripObservable = (promise, ObservableFunc = Observable.fromPromise) =>
+export const dripObservable = (
+  promise,
+  ObservableFunc = Observable.fromPromise,
+  candleQueryFunc = candleQueryObservable,
+) =>
   ObservableFunc(promise)
-    .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME]))
+    .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME], candleQueryFunc))
+    .do(data => console.log(data))
     .catch(err => console.log(err))
 
 export default dripObservable(request)
