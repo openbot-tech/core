@@ -54,7 +54,6 @@ export const dripObservable = (
 ) =>
   ObservableFunc(promise)
     .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME], candleQueryFunc))
-    .do(data => console.log(data))
     .catch(err => console.log(err))
 
 export default dripObservable(request)
