@@ -1,7 +1,18 @@
-import { TestScheduler } from 'rxjs'
-import { socketObservable, candleObservable, createCandle } from '.'
+import moment from 'moment'
+import { TestScheduler, Observable } from 'rxjs'
+import { newSession, SESSION_ID } from '../../config'
+import {
+  socketObservable,
+  candleObservable,
+  createCandle,
+  candleQueryObservable,
+} from '.'
+import '../../db/testSetup'
 
 describe('Live market data', () => {
+  // global helper functions
+  const testCandleQuery = data => Observable.of(data)
+
   it('should create a socket connection and emit fills data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
@@ -123,7 +134,7 @@ describe('Live market data', () => {
       },
     ]
     expect(createCandle(ticks)).toEqual([
-      1516817343, // closeTime
+      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
       0.0923, // openPrice
       0.0925, // highPrice
       0.0923, // lowPrice
@@ -162,19 +173,20 @@ describe('Live market data', () => {
     }
 
     const expectedMap = {
-      a: [[
-        1516817343, // closeTime
+      a: [
+        null,
+        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
         0.0923, // openPrice
         0.0925, // highPrice
         0.0923, // lowPrice
         0.0925, // closePrice
         3, // volume
-      ]],
+      ],
     }
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
-    const actual$ = candleObservable(lhs$, 0.04, testScheduler)
+    const actual$ = candleObservable(lhs$, 0.04, testCandleQuery, testScheduler)
 
     testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
     testScheduler.flush()
@@ -210,63 +222,38 @@ describe('Live market data', () => {
     }
 
     const expectedMap = {
-      a: [[
-        1516817223, // closeTime
+      a: [
+        null,
+        moment('2018-01-24T19:07:03.063').toDate(), // closeTime
         0.0923, // openPrice
         0.0923, // highPrice
         0.0923, // lowPrice
         0.0923, // closePrice
         1, // volume
-      ]],
+      ],
       b: [
-        [
-          1516817223, // closeTime
-          0.0923, // openPrice
-          0.0923, // highPrice
-          0.0923, // lowPrice
-          0.0923, // closePrice
-          1, // volume
-        ],
-        [
-          1516817283, // closeTime
-          0.0924, // openPrice
-          0.0924, // highPrice
-          0.0924, // lowPrice
-          0.0924, // closePrice
-          1, // volume
-        ],
+        null,
+        moment('2018-01-24T19:08:03.063').toDate(), // closeTime
+        0.0924, // openPrice
+        0.0924, // highPrice
+        0.0924, // lowPrice
+        0.0924, // closePrice
+        1, // volume
       ],
       c: [
-        [
-          1516817223, // closeTime
-          0.0923, // openPrice
-          0.0923, // highPrice
-          0.0923, // lowPrice
-          0.0923, // closePrice
-          1, // volume
-        ],
-        [
-          1516817283, // closeTime
-          0.0924, // openPrice
-          0.0924, // highPrice
-          0.0924, // lowPrice
-          0.0924, // closePrice
-          1, // volume
-        ],
-        [
-          1516817343, // closeTime
-          0.0925, // openPrice
-          0.0925, // highPrice
-          0.0925, // lowPrice
-          0.0925, // closePrice
-          1, // volume
-        ],
+        null,
+        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+        0.0925, // openPrice
+        0.0925, // highPrice
+        0.0925, // lowPrice
+        0.0925, // closePrice
+        1, // volume
       ],
     }
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
-    const actual$ = candleObservable(lhs$, 0.005, testScheduler)
+    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
 
     testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
     testScheduler.flush()
@@ -279,7 +266,7 @@ describe('Live market data', () => {
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble)
 
-    const actual$ = candleObservable(lhs$, 0.005, testScheduler)
+    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
 
     testScheduler.expectObservable(actual$).toBe(expected)
     testScheduler.flush()
@@ -309,31 +296,79 @@ describe('Live market data', () => {
     }
 
     const expectedMap = {
-      a: [[
-        1516817223, // closeTime
+      a: [
+        null,
+        moment('2018-01-24T19:07:03.063').toDate(), // closeTime
         0.0923, // openPrice
         0.0923, // highPrice
         0.0923, // lowPrice
         0.0923, // closePrice
         1, // volume
-      ]],
+      ],
       c: [
-        [
-          1516817343, // closeTime
-          0.0925, // openPrice
-          0.0925, // highPrice
-          0.0925, // lowPrice
-          0.0925, // closePrice
-          1, // volume
-        ],
+        null,
+        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+        0.0925, // openPrice
+        0.0925, // highPrice
+        0.0925, // lowPrice
+        0.0925, // closePrice
+        1, // volume
       ],
     }
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
-    const actual$ = candleObservable(lhs$, 0.005, testScheduler)
+    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
 
     testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
     testScheduler.flush()
+  })
+  it('should post candle to db and return rows from that session', async () => {
+    expect.assertions(1)
+    const testDbCandle = [
+      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+      0.0925, // openPrice
+      0.0925, // highPrice
+      0.0925, // lowPrice
+      0.0925, // closePrice
+      1, // volume
+    ]
+
+    const dbCandle = [
+      [1516817343, 0.0925, 0.0925, 0.0925, 0.0925, 1],
+    ]
+
+    await newSession()
+    const candleQueryPromise = candleQueryObservable([SESSION_ID, ...testDbCandle]).toPromise()
+    await expect(candleQueryPromise).resolves.toEqual(dbCandle)
+  })
+  it('should post candle to db and return rows from that session for several rows', async () => {
+    expect.assertions(1)
+    const testDbCandle1 = [
+      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+      0.0925, // openPrice
+      0.0925, // highPrice
+      0.0925, // lowPrice
+      0.0925, // closePrice
+      1, // volume
+    ]
+    const testDbCandle2 = [
+      moment('2018-01-24T19:10:03.063').toDate(), // closeTime
+      0.0926, // openPrice
+      0.0926, // highPrice
+      0.0926, // lowPrice
+      0.0926, // closePrice
+      2, // volume
+    ]
+
+    const dbCandle = [
+      [1516817343, 0.0925, 0.0925, 0.0925, 0.0925, 1],
+      [1516817403, 0.0926, 0.0926, 0.0926, 0.0926, 2],
+    ]
+
+    await newSession()
+    await candleQueryObservable([SESSION_ID, ...testDbCandle1]).toPromise()
+    const candleQueryPromise2 = candleQueryObservable([SESSION_ID, ...testDbCandle2]).toPromise()
+    await expect(candleQueryPromise2).resolves.toEqual(dbCandle)
   })
 })

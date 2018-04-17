@@ -1,4 +1,4 @@
-import { toMarketDataObject } from './utils'
+import { toMarketDataObject } from '../parser'
 import MACCI from './strategies/MA-CCI'
 
 // TODO takes data from market and returns an order event
