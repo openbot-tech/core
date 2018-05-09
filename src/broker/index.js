@@ -5,7 +5,6 @@ import { PAPER_TRADE, SESSION_ID } from '../config'
 const executeOrder = (marketData) => {
   const candleDate = moment(marketData.date * 1000).toDate()
   signalQuery([marketData.type, candleDate, SESSION_ID])
-  console.log(marketData)
 }
 
 export default executeOrder

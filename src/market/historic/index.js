@@ -1,4 +1,6 @@
 import { Observable } from 'rxjs'
+import ProgressBar from 'progress'
+import chalk from 'chalk'
 import axios from 'axios'
 import moment from 'moment'
 import { candleQueryObservable } from '../live'
@@ -33,6 +35,14 @@ Data structure
 const now = moment()
 const after = now.subtract(BACKTEST_DAYS, 'd').unix()
 
+export const introText = (OHLC) => {
+  console.log('Pair: ', chalk.bold(PAIR))
+  console.log('Time Frame: ', chalk.bold(TIME_FRAME), ' minutes')
+  console.log('First candle: ', chalk.bold(moment(OHLC[0][0] * 1000).toDate()))
+  console.log('Last candle: ', chalk.bold(moment([...OHLC].pop()[0] * 1000).toDate()))
+  console.log('Number Of Candles: ', chalk.bold(OHLC.length))
+}
+
 const marketsRequest = axios.get('https://api.cryptowat.ch/markets/bittrex')
 
 export const getPairForCryptowatch = (pair, cwPair) =>
@@ -50,14 +60,17 @@ const dataRequest = async (pair = PAIR) => {
   )
 }
 
-const createDripDataObservable = (OHLCData, candleQueryFunc) => (
-  Observable.from(OHLCData)
+const createDripDataObservable = (OHLCData, candleQueryFunc) => {
+  const bar = new ProgressBar(':bar', { total: OHLCData.length, width: 40 })
+  return Observable.from(OHLCData)
     .concatMap((t) => {
+      bar.tick()
       const candle = [...t].slice(0, 6)
       candle[0] = moment(candle[0] * 1000).toDate()
       return candleQueryFunc([SESSION_ID, ...candle])
     })
-)
+}
+
 
 export const dripObservable = (
   promise,
@@ -65,6 +78,7 @@ export const dripObservable = (
   candleQueryFunc = candleQueryObservable,
 ) =>
   ObservableFunc(promise)
+    .do(data => introText(data.data.result[TIME_FRAME]))
     .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME], candleQueryFunc))
     .catch(err => console.log(err)) // eslint-disable-line no-console
 
