@@ -44,7 +44,9 @@ const dataRequest = async (pair = PAIR) => {
   if (!cryptowatchPair) throw Error('pair not found')
   return axios.get(
     `${cryptowatchPair.route}/ohlc`,
-    { params: { after } },
+    {
+      params: { after, periods: TIME_FRAME },
+    },
   )
 }
 
