@@ -36,11 +36,11 @@ const now = moment()
 const after = now.subtract(BACKTEST_DAYS, 'd').unix()
 
 export const introText = (OHLC) => {
-  console.log('Pair: ', chalk.bold(PAIR))
-  console.log('Time Frame: ', chalk.bold(TIME_FRAME), ' minutes')
-  console.log('First candle: ', chalk.bold(moment(OHLC[0][0] * 1000).toDate()))
-  console.log('Last candle: ', chalk.bold(moment([...OHLC].pop()[0] * 1000).toDate()))
-  console.log('Number Of Candles: ', chalk.bold(OHLC.length))
+  console.log('Pair: ', chalk.bold(PAIR)) // eslint-disable-line no-console
+  console.log('Time Frame: ', chalk.bold(TIME_FRAME), ' minutes') // eslint-disable-line no-console
+  console.log('First candle: ', chalk.bold(moment(OHLC[0][0] * 1000).toDate())) // eslint-disable-line no-console
+  console.log('Last candle: ', chalk.bold(moment([...OHLC].pop()[0] * 1000).toDate())) // eslint-disable-line no-console
+  console.log('Number Of Candles: ', chalk.bold(OHLC.length)) // eslint-disable-line no-console
 }
 
 const marketsRequest = axios.get('https://api.cryptowat.ch/markets/bittrex')

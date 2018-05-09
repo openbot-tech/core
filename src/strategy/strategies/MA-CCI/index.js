@@ -99,7 +99,7 @@ const MACCI = marketData => (
   getIndicatorsObservable(marketData, indicatorSettings)
     .flatMap(indicators => [buy(indicators, marketData), sell(indicators, marketData)])
     .filter(signal => !!signal === true)
-    .catch(err => console.log(err))
+    .catch(err => console.log(err)) // eslint-disable-line no-console
 )
 
 export default MACCI

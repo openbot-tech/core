@@ -11,7 +11,7 @@ const logResult = result => (result < 0 ? chalk.red(result) : chalk.green(result
 export const totalResult = (results) => {
   const result = results.reduce((acc, percentageResult) => acc * (1 + (percentageResult / 100)), 1)
   const resultInPercentage = (result * 100) - 100
-  console.log('______________')
+  console.log('______________') // eslint-disable-line no-console
   console.log(chalk.bold('Total Result: '), logResult(resultInPercentage)) // eslint-disable-line no-console
   return resultInPercentage
 }
