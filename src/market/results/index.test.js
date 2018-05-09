@@ -68,4 +68,5 @@ describe('Results', () => {
     testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
     testScheduler.flush()
   })
+  // TODO test results query
 })
