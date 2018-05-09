@@ -6,6 +6,7 @@
   },
   "description": "RxJS Trading bot",
   "scripts": {
+    "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
     "postinstall": "babel src -d dist",
@@ -31,11 +32,14 @@
     "axios": "^0.17.1",
     "babel-polyfill": "^6.23.0",
     "chalk": "^2.4.1",
+    "lint-staged": "^7.1.0",
     "moment": "^2.20.1",
     "node-bittrex-api": "^0.8.1",
     "pg": "^7.4.1",
+    "pre-commit": "^1.2.2",
     "progress": "^2.0.0",
     "rxjs": "^5.5.5",
     "talib": "^1.0.3"
-  }
+  },
+  "pre-commit": "lint:staged"
 }
