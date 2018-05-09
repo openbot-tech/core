@@ -19,7 +19,7 @@ export const socketObservable = (
   subscribe = subscribeObservable,
 ) =>
   clientCallback
-    .do(() => console.log('socket connected!'))
+    .do(() => console.log('socket connected!')) // eslint-disable-line no-console
     .flatMap(() => subscribe)
     .filter(subscribtionData => subscribtionData && subscribtionData.M === 'updateExchangeState')
     .flatMap(exchangeState => Observable.from(exchangeState.A))

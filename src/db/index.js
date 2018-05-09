@@ -49,4 +49,34 @@ export const signalQuery = async params => (
       $3)`, params)
 )
 
+export const resultsQuery = async params => (
+  query(`
+    select 
+      type, close
+    from 
+      ( 
+        select 
+          signals.id,
+          type,
+          signals.session_id,
+          candles.close as close,
+          ( 
+            select id from signals
+            where session_id = $1
+            order by id desc
+            limit 1
+          ) as last_id,
+          lag(type) over (order by signals.id) AS prev_type
+        from signals
+        left join CANDLES
+        on signals.candle_id = candles.id
+        where signals.session_id = $1
+      ) sub
+    where type = 'buy' 
+    and id != last_id
+    or prev_type ='buy'
+    order by session_id
+  `, params)
+)
+
 export default query
