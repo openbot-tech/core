@@ -2,7 +2,7 @@ import { Observable } from 'rxjs'
 import axios from 'axios'
 import moment from 'moment'
 import { candleQueryObservable } from '../live'
-import { SESSION_ID, TIME_FRAME, BACKTEST_DAYS } from '../../config'
+import { SESSION_ID, TIME_FRAME, BACKTEST_DAYS, PAIR } from '../../config'
 
 /*
 Time periods in seconds
@@ -33,10 +33,20 @@ Data structure
 const now = moment()
 const after = now.subtract(BACKTEST_DAYS, 'd').unix()
 
-const request = axios.get(
-  'https://api.cryptowat.ch/markets/bitfinex/omgbtc/ohlc',
-  { params: { after } },
-)
+const marketsRequest = axios.get('https://api.cryptowat.ch/markets/bittrex')
+
+export const getPairForCryptowatch = (pair, cwPair) =>
+  pair.split('-').every(ticker => cwPair.includes(ticker.toLowerCase()))
+
+const dataRequest = async (pair = PAIR) => {
+  const markets = await marketsRequest
+  const cryptowatchPair = markets.data.result.find(pairObj => getPairForCryptowatch(pair, pairObj.pair))
+  if (!cryptowatchPair) throw Error('pair not found')
+  return axios.get(
+    `${cryptowatchPair.route}/ohlc`,
+    { params: { after } },
+  )
+}
 
 const createDripDataObservable = (OHLCData, candleQueryFunc) => (
   Observable.from(OHLCData)
@@ -56,4 +66,4 @@ export const dripObservable = (
     .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME], candleQueryFunc))
     .catch(err => console.log(err)) // eslint-disable-line no-console
 
-export default dripObservable(request)
+export default dripObservable(dataRequest())

@@ -19,7 +19,7 @@ export const toMarketDataObject = marketData => (
   })
 )
 
-export const toArrayOfArraysData = marketData => (
+export const toArrayOfArraysDataFromDB = marketData => (
   marketData.map(marketRow => [
     moment(marketRow.close_time).unix(),
     parseFloat(marketRow.open),
@@ -27,6 +27,17 @@ export const toArrayOfArraysData = marketData => (
     parseFloat(marketRow.low),
     parseFloat(marketRow.close),
     parseFloat(marketRow.volume),
+  ])
+)
+
+export const toArrayOfArraysDataFromAPI = marketData => (
+  marketData.map(marketRow => [
+    moment(marketRow.T).unix(),
+    parseFloat(marketRow.O),
+    parseFloat(marketRow.H),
+    parseFloat(marketRow.L),
+    parseFloat(marketRow.C),
+    parseFloat(marketRow.V),
   ])
 )
 

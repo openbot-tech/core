@@ -4,13 +4,6 @@ import { Observable } from 'rxjs'
 import { TIME_FRAME, PAIR, SESSION_ID } from '../../config'
 import { candleQuery } from '../../db'
 
-const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
-
-bittrex.options({
-  apikey: BITTREX_API_KEY,
-  apisecret: BITTREX_API_SECRET,
-})
-
 const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe([PAIR], h))
 const clientCallBackObservable = Observable.fromEventPattern(h => bittrex.websockets.client(h))
 

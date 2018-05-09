@@ -1,6 +1,7 @@
 import {
   toMarketDataObject,
-  toArrayOfArraysData,
+  toArrayOfArraysDataFromDB,
+  toArrayOfArraysDataFromAPI,
 } from '.'
 
 describe('Parser', () => {
@@ -65,6 +66,32 @@ describe('Parser', () => {
       [1516817343, 0.0925, 0.0925, 0.0925, 0.0925, 1],
       [1516817403, 0.0926, 0.0926, 0.0926, 0.0926, 2],
     ]
-    expect(toArrayOfArraysData(dbDataArr)).toEqual(expectedDataObject)
+    expect(toArrayOfArraysDataFromDB(dbDataArr)).toEqual(expectedDataObject)
+  })
+  it('should convert array API data to an array of arrays', () => {
+    const APIDataArr = [{
+      O: 8370,
+      H: 8370,
+      L: 8345,
+      C: 8348,
+      V: 3.51614549,
+      T: '2018-04-20T00:45:00',
+      BV: 29398.86160108,
+    },
+    {
+      O: 8367.5,
+      H: 8369.5,
+      L: 8348,
+      C: 8350,
+      V: 2.59546932,
+      T: '2018-04-20T00:50:00',
+      BV: 21697.46074916 },
+    ]
+
+    const expectedDataObject = [
+      [1524177900, 8370, 8370, 8345, 8348, 3.51614549],
+      [1524178200, 8367.5, 8369.5, 8348, 8350, 2.59546932],
+    ]
+    expect(toArrayOfArraysDataFromAPI(APIDataArr)).toEqual(expectedDataObject)
   })
 })

@@ -1,6 +1,6 @@
 import { TestScheduler, Observable } from 'rxjs'
 import moment from 'moment'
-import { dripObservable } from '.'
+import { dripObservable, getPairForCryptowatch } from '.'
 import { newSession, TIME_FRAME } from '../../config'
 import '../../db/testSetup'
 
@@ -10,7 +10,13 @@ describe('Historic market data', () => {
     [1516766400, 0.0014763, 0.0014902, 0.0014424, 0.0014874, 30, 41.91949],
     [1516780800, 0.0014798, 0.0015099, 0.0014691, 0.0015012, 10, 25.553959],
   ]
+  it('should tell whether its the correct pair', () => {
+    const found = getPairForCryptowatch('BTC-OMG', 'omgbtc')
+    const notFound = getPairForCryptowatch('USDT-OMG', 'omgusd')
 
+    expect(found).toBeTruthy()
+    expect(notFound).toBeFalsy()
+  })
   it('should finish the first candle before running the next one', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup

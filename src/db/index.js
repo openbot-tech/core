@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-import { toArrayOfArraysData } from '../parser'
+import { toArrayOfArraysDataFromDB } from '../parser'
 import { dev, test } from '../config/database.json'
 
 const getDBForEnv = env => (env === 'test' ? test : dev)
@@ -35,7 +35,7 @@ export const candleQuery = async (params) => {
     'SELECT close_time, open, high, low, close, volume FROM candles WHERE session_id = $1',
     [params[0]],
   )
-  return toArrayOfArraysData(dbCandleData)
+  return toArrayOfArraysDataFromDB(dbCandleData)
 }
 
 export const signalQuery = async params => (
