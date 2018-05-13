@@ -9,7 +9,7 @@
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node --presets es2015,stage-2",
-    "build": "babel src -d dist",
+    "build": "babel src -d dist --copy-files",
     "test": "NODE_ENV=test jest --watch --coverage"
   },
   "author": "Kenneth Christensen",
