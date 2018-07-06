@@ -140,7 +140,7 @@ describe('Live market data', () => {
       },
     ]
     expect(createCandle(ticks)).toEqual([
-      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+      moment('2018-01-24T19:09:03.000').toDate(), // closeTime
       0.0923, // openPrice
       0.0925, // highPrice
       0.0923, // lowPrice
@@ -181,7 +181,7 @@ describe('Live market data', () => {
     const expectedMap = {
       a: [
         null,
-        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:09:03.000').toDate(), // closeTime
         0.0923, // openPrice
         0.0925, // highPrice
         0.0923, // lowPrice
@@ -230,7 +230,7 @@ describe('Live market data', () => {
     const expectedMap = {
       a: [
         null,
-        moment('2018-01-24T19:07:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:07:03.000').toDate(), // closeTime
         0.0923, // openPrice
         0.0923, // highPrice
         0.0923, // lowPrice
@@ -239,7 +239,7 @@ describe('Live market data', () => {
       ],
       b: [
         null,
-        moment('2018-01-24T19:08:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:08:03.000').toDate(), // closeTime
         0.0924, // openPrice
         0.0924, // highPrice
         0.0924, // lowPrice
@@ -248,7 +248,7 @@ describe('Live market data', () => {
       ],
       c: [
         null,
-        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:09:03.000').toDate(), // closeTime
         0.0925, // openPrice
         0.0925, // highPrice
         0.0925, // lowPrice
@@ -304,7 +304,7 @@ describe('Live market data', () => {
     const expectedMap = {
       a: [
         null,
-        moment('2018-01-24T19:07:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:07:03.000').toDate(), // closeTime
         0.0923, // openPrice
         0.0923, // highPrice
         0.0923, // lowPrice
@@ -313,7 +313,7 @@ describe('Live market data', () => {
       ],
       c: [
         null,
-        moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+        moment('2018-01-24T19:09:03.000').toDate(), // closeTime
         0.0925, // openPrice
         0.0925, // highPrice
         0.0925, // lowPrice

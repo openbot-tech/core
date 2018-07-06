@@ -30,7 +30,7 @@ export const createCandle = (fillsData) => {
   const openPrice = fillsData[0].Rate
   const closeObj = fillsData.pop()
   const closePrice = closeObj.Rate
-  const closeTime = moment(closeObj.TimeStamp).toDate()
+  const closeTime = moment(closeObj.TimeStamp).milliseconds(0).toDate()
   return [closeTime, openPrice, highPrice, lowPrice, closePrice, volume]
 }
 
