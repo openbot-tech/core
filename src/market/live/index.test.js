@@ -17,14 +17,19 @@ describe('Live market data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
     const lhsMarble1 = 'a'
-    const lhsMarble2 = '-m-n-j'
+    const lhsMarble2 = 'f'
+    const lhsMarble3 = '-m-n-j'
     const expected = '---x--'
 
     const lhs1Input = {
-      a: { message: 'socket connected' },
+      a: { message: undefined },
     }
 
     const lhs2Input = {
+      f: { message: 'socket connected' },
+    }
+
+    const lhs3Input = {
       m: {
         unhandled_data: {
           R: true,
@@ -109,8 +114,9 @@ describe('Live market data', () => {
 
     const lhs1$ = testScheduler.createHotObservable(lhsMarble1, lhs1Input)
     const lhs2$ = testScheduler.createHotObservable(lhsMarble2, lhs2Input)
+    const lhs3$ = testScheduler.createHotObservable(lhsMarble3, lhs3Input)
 
-    const actual$ = socketObservable(lhs1$, lhs2$)
+    const actual$ = socketObservable(lhs1$, lhs2$, lhs3$)
 
     testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
     testScheduler.flush()

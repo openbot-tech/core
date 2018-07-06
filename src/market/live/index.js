@@ -4,15 +4,17 @@ import { Observable } from 'rxjs'
 import { TIME_FRAME, PAIR, SESSION_ID } from '../../config'
 import { candleQuery } from '../../db'
 
-const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe([PAIR], h))
+const clientObservable = Observable.fromEventPattern(h => bittrex.websockets.client(h))
 const onConnectObservable = Observable.fromEventPattern(h => bittrex.options({ websockets: { onConnect: h } }))
+const subscribeObservable = Observable.fromEventPattern(h => bittrex.websockets.subscribe([PAIR], h))
 
 export const socketObservable = (
+  client = clientObservable,
   onConnect = onConnectObservable,
   subscribe = subscribeObservable,
-) => {
-  bittrex.websockets.client()
-  return onConnect
+) =>
+  client
+    .flatMap(() => onConnect)
     .do(() => console.log('socket connected!')) // eslint-disable-line no-console
     .flatMap(() => subscribe)
     .filter(subscribtionData => subscribtionData && subscribtionData.M === 'updateExchangeState')
@@ -20,7 +22,6 @@ export const socketObservable = (
     .filter(marketData => marketData.Fills.length > 0)
     .map(marketData => marketData && marketData.Fills)
     .retry()
-}
 
 export const createCandle = (fillsData) => {
   const highPrice = fillsData.reduce((prev, curr) => (prev.Rate > curr.Rate ? prev : curr)).Rate
