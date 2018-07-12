@@ -1,7 +1,9 @@
 import { TestScheduler, Observable } from 'rxjs'
 import moment from 'moment'
-import { dripObservable, getPairForCryptowatch } from '.'
+import { dripObservable, getPairForCryptowatch, dataRequest } from '.'
 import { newSession, TIME_FRAME } from '../../config'
+import marketsData from './marketsData.json'
+import marketsOHLCData from './marketsOHLCData.json'
 import '../../db/testSetup'
 
 describe('Historic market data', () => {
@@ -16,6 +18,16 @@ describe('Historic market data', () => {
 
     expect(found).toBeTruthy()
     expect(notFound).toBeFalsy()
+  })
+  it('should fetch ohlc data for a given pair or throw an error', async () => {
+    expect.assertions(2)
+    const marketsDataPromise = new Promise(resolve => resolve({ data: marketsData }))
+    const marketsOHLCDataPromise = () => new Promise(resolve => resolve({ data: marketsOHLCData }))
+    const found = dataRequest('BTC-OMG', marketsDataPromise, marketsOHLCDataPromise)
+    const notFound = dataRequest('SDFS-OMG', marketsDataPromise, marketsOHLCDataPromise)
+
+    await expect(found).resolves.toEqual({ data: marketsOHLCData })
+    await expect(notFound).rejects.toEqual(Error('pair not found'))
   })
   it('should finish the first candle before running the next one', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))

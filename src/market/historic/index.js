@@ -48,11 +48,11 @@ const marketsRequest = axios.get('https://api.cryptowat.ch/markets/bittrex')
 export const getPairForCryptowatch = (pair, cwPair) =>
   pair.split('-').every(ticker => cwPair.includes(ticker.toLowerCase()))
 
-const dataRequest = async (pair = PAIR) => {
-  const markets = await marketsRequest
+export const dataRequest = async (pair = PAIR, marketsPromise = marketsRequest, ohlcPromise = axios.get) => {
+  const markets = await marketsPromise
   const cryptowatchPair = markets.data.result.find(pairObj => getPairForCryptowatch(pair, pairObj.pair))
   if (!cryptowatchPair) throw Error('pair not found')
-  return axios.get(
+  return ohlcPromise(
     `${cryptowatchPair.route}/ohlc`,
     {
       params: { after, periods: TIME_FRAME },
