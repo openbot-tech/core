@@ -9,6 +9,8 @@ export const lineIsSlopingUpwards = (line, lastXElements = 5) => {
 export const indicatorObservable = indicatorData =>
   Observable.fromPromise(talib.execute(indicatorData))
 
+export const getEndIdx = arr => (arr.length > 2 ? arr.length - 2 : 0)
+
 export const getIndicatorsObservable = (
   marketData,
   indicatorSettings,

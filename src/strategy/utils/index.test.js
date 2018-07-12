@@ -2,6 +2,7 @@ import { TestScheduler, Observable } from 'rxjs'
 import {
   lineIsSlopingUpwards,
   getIndicatorsObservable,
+  getEndIdx,
 } from '.'
 
 describe('Stragedy Utils', () => {
@@ -35,6 +36,17 @@ describe('Stragedy Utils', () => {
     expect(lineIsSlopingUpwards(arrIsSlopingUpwards)).toBeTruthy()
     expect(lineIsSlopingUpwards(arrIsntSlopingUpwards)).toBeFalsy()
     expect(lineIsSlopingUpwards(last3ElementsSlopingUpwards, 3)).toBeTruthy()
+  })
+  it('Should return endIdx for indicator', () => {
+    const testArr1 = [1, 2, 3]
+    const testArr2 = [1]
+    const testArr3 = []
+    const testArr4 = new Array(45)
+
+    expect(getEndIdx(testArr1)).toBe(1)
+    expect(getEndIdx(testArr2)).toBe(0)
+    expect(getEndIdx(testArr3)).toBe(0)
+    expect(getEndIdx(testArr4)).toBe(43)
   })
   it('should run indicators and return data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))

@@ -35,4 +35,15 @@ describe('Strategy/MA-CCI', () => {
     const resultMACCI = MACCI(marketDataObj).toArray().toPromise()
     await expect(resultMACCI).resolves.toEqual(sellSignal)
   })
+  it('It should emit empty array if no signals', async () => {
+    // https://api.cryptowat.ch/markets/bittrex/ethbtc/ohlc?periods=14400&before=1528833600&after=1528531200
+    expect.assertions(1)
+    const tradeData = [
+      [1527724800, 0.07509535, 0.07594, 0.07467092, 0.07585498, 625.9437, 47.049984],
+      [1527739200, 0.07571121, 0.0768, 0.07520696, 0.07645023, 798.939, 60.800404],
+    ]
+    const marketDataObj = toMarketDataObject(tradeData)
+    const resultMACCI = MACCI(marketDataObj).toArray().toPromise()
+    await expect(resultMACCI).resolves.toEqual([])
+  })
 })

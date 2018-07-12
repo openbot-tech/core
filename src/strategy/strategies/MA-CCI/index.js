@@ -1,10 +1,10 @@
-import { lineIsSlopingUpwards, getIndicatorsObservable } from '../../utils'
+import { lineIsSlopingUpwards, getIndicatorsObservable, getEndIdx } from '../../utils'
 
 const indicatorSettings = marketData => [
   {
     name: 'CCI',
     startIdx: 0,
-    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
+    endIdx: getEndIdx(marketData.close),
     optInTimePeriod: 5,
     high: marketData.high.slice(0, -1),
     low: marketData.low.slice(0, -1),
@@ -13,21 +13,21 @@ const indicatorSettings = marketData => [
   {
     name: 'SMA',
     startIdx: 0,
-    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
+    endIdx: getEndIdx(marketData.close),
     optInTimePeriod: 20,
     inReal: marketData.close.slice(0, -1),
   },
   {
     name: 'SMA',
     startIdx: 0,
-    endIdx: marketData.close.length > 2 ? marketData.close.length - 2 : 0,
+    endIdx: getEndIdx(marketData.close),
     optInTimePeriod: 40,
     inReal: marketData.close.slice(0, -1),
   },
   {
     name: 'ATR',
     startIdx: 0,
-    endIdx: marketData.close.length >= 2 ? marketData.close.length - 2 : 0,
+    endIdx: getEndIdx(marketData.close),
     optInTimePeriod: 14,
     high: marketData.high.slice(0, -1),
     low: marketData.low.slice(0, -1),
@@ -99,7 +99,6 @@ const MACCI = marketData => (
   getIndicatorsObservable(marketData, indicatorSettings)
     .flatMap(indicators => [buy(indicators, marketData), sell(indicators, marketData)])
     .filter(signal => !!signal === true)
-    .catch(err => console.log(err)) // eslint-disable-line no-console
 )
 
 export default MACCI
