@@ -80,6 +80,5 @@ export const dripObservable = (
   ObservableFunc(promise)
     .do(data => introText(data.data.result[TIME_FRAME]))
     .flatMap(data => createDripDataObservable(data.data.result[TIME_FRAME], candleQueryFunc))
-    .catch(err => console.log(err)) // eslint-disable-line no-console
 
 export default dripObservable(dataRequest())
