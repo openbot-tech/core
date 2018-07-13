@@ -124,7 +124,7 @@ describe('Live market data', () => {
   it('should create candle from array of ticker data', () => {
     const ticks = [
       { OrderType: 'BUY',
-        Rate: 0.0923,
+        Rate: 0.0925,
         Quantity: 1,
         TimeStamp: '2018-01-24T19:07:03.063',
       },
@@ -134,17 +134,17 @@ describe('Live market data', () => {
         TimeStamp: '2018-01-24T19:08:03.063',
       },
       { OrderType: 'BUY',
-        Rate: 0.0925,
+        Rate: 0.0923,
         Quantity: 1,
         TimeStamp: '2018-01-24T19:09:03.063',
       },
     ]
     expect(createCandle(ticks)).toEqual([
       moment('2018-01-24T19:09:03.000').toDate(), // closeTime
-      0.0923, // openPrice
+      0.0925, // openPrice
       0.0925, // highPrice
       0.0923, // lowPrice
-      0.0925, // closePrice
+      0.0923, // closePrice
       3, // volume
     ])
   })
