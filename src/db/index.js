@@ -46,7 +46,8 @@ export const signalQuery = async params => (
         WHERE close_time = $2 
         AND session_id = $3
       ),
-      $3)`, params)
+      $3)
+    RETURNING type, session_id`, params)
 )
 
 export const resultsQuery = async params => (
