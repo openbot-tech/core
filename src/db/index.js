@@ -2,7 +2,7 @@ import { Pool } from 'pg'
 import { toArrayOfArraysDataFromDB } from '../parser'
 import { dev, test } from '../config/database.json'
 
-const getDBForEnv = env => (env === 'test' ? test : dev)
+export const getDBForEnv = env => (env === 'test' ? test : dev)
 
 export const pool = new Pool(getDBForEnv(process.env.NODE_ENV))
 
