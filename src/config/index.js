@@ -14,6 +14,7 @@ export const BACKTEST_DAYS = 200
 export const BACKTEST = false
 export const PAPER_TRADE = true
 export const PAIR = 'BTC-OMG'
+export const STRATEGY = 'MA-CCI'
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 
 export const newSession = async (name) => {
