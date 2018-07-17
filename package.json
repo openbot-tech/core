@@ -6,6 +6,7 @@
   },
   "description": "RxJS Trading bot",
   "scripts": {
+    "test:staged": "jest",
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run build:watch | nodemon --watch dist/ dist/index.js",
@@ -46,5 +47,5 @@
     "rxjs": "^5.5.5",
     "talib": "^1.0.3"
   },
-  "pre-commit": "lint:staged"
+  "pre-commit": ["lint:staged", "test:staged"]
 }
