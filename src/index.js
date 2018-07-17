@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import { Subject } from 'rxjs'
 
 import { newSession } from './config'
