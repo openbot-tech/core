@@ -95,8 +95,8 @@ const sell = (indicatorsData, marketData, multiplier = 1.5) => {
   return false
 }
 
-const MACCI = marketData => (
-  getIndicatorsObservable(marketData, indicatorSettings)
+const MACCI = (marketData, getIndicators = getIndicatorsObservable) => (
+  getIndicators(marketData, indicatorSettings)
     .flatMap(indicators => [buy(indicators, marketData), sell(indicators, marketData)])
     .filter(signal => !!signal === true)
 )

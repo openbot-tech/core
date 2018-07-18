@@ -1,7 +1,9 @@
+import { TestScheduler } from 'rxjs'
 import MACCI from '.'
 import { toMarketDataObject } from '../../../parser/'
 import buyTestData from './buyTestData.json'
 import sellTestData from './sellTestData.json'
+import buyIndicatorData from './buyIndicatorData.json'
 
 describe('Strategy/MA-CCI', () => {
   it('It should emit buy signal', async () => {
@@ -45,5 +47,34 @@ describe('Strategy/MA-CCI', () => {
     const marketDataObj = toMarketDataObject(tradeData)
     const resultMACCI = MACCI(marketDataObj).toArray().toPromise()
     await expect(resultMACCI).resolves.toEqual([])
+  })
+  it('It should emit complete event after signal', async () => {
+    const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
+    // setup
+    const lhsMarble = '(x|)'
+    const expected = '(a|)'
+
+    const marketDataObj = toMarketDataObject(buyTestData)
+    const lhsInput = { x: buyIndicatorData }
+    const buySignal =
+      { date: 1528300800,
+        lastCCI5: -128.90699251229532,
+        lastClose: 0.079984,
+        lastLow: 0.07925984,
+        lastSMA20: 0.07948780150000002,
+        lastSMA40: 0.078240221,
+        type: 'buy',
+      }
+
+    const expectedMap = {
+      a: buySignal,
+    }
+
+    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const getIndicatorMock = () => lhs$
+    const actual$ = MACCI(marketDataObj, getIndicatorMock)
+
+    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.flush()
   })
 })
