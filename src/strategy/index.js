@@ -2,8 +2,7 @@ import { toMarketDataObject } from '../parser'
 import { STRATEGY } from '../config/'
 import strategies from './strategies/'
 
-// TODO takes data from market and returns an order event
-const runStrategy = async (marketData, eventLoop) => {
+const runStrategy = (marketData, eventLoop) => {
   const type = 'signal'
   const strategy = strategies[STRATEGY]
 

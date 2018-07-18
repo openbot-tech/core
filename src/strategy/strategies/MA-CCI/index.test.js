@@ -20,6 +20,7 @@ describe('Strategy/MA-CCI', () => {
       },
     ]
     const marketDataObj = toMarketDataObject(buyTestData)
+    // toPromise returns after observable completes
     const resultMACCI = MACCI(marketDataObj).toArray().toPromise()
     await expect(resultMACCI).resolves.toEqual(buySignal)
   })
