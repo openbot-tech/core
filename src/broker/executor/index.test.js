@@ -121,6 +121,7 @@ describe('broker/executor', () => {
     const orderBook = { sell: orderBookSell, buy: orderBookBuy }
     expect(getHighestOrderForType(orderBook, buySignalMockData)).toEqual({ Quantity: 2.89969117, Rate: 0.000839 })
     expect(getHighestOrderForType(orderBook, sellSignalMockData)).toEqual({ Quantity: 2.89969117, Rate: 0.001039 })
+    expect(getHighestOrderForType(orderBook, { ...sellSignalMockData, type: 'nope' })).toEqual(false)
   })
   it('Should calculate the quantity for an order from balance and best order', () => {
     expect(calculateQuantity(14.21549076, { Quantity: 32.55412402, Rate: 0.0254 }))

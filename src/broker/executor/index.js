@@ -140,7 +140,17 @@ const execute = (
         ? executeOrderAndCancelIfNoFill({ idx, ...signalData }, pair)
         : Observable.empty()
     ))
-    .catch(data => console.log(data))
 )
+
+/*
+execute({ date: 1528300800,
+  lastCCI5: -128.90699251229532,
+  lastClose: 0.079984,
+  lastLow: 0.07925984,
+  lastSMA20: 0.07948780150000002,
+  lastSMA40: 0.078240221,
+  type: 'sell',
+}, 'OMG-ETH')
+*/
 
 export default execute
