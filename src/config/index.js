@@ -5,6 +5,7 @@ const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
 
 bittrex.options({
   verbose: true,
+  inverse_callback_arguments: true,
   apikey: BITTREX_API_KEY,
   apisecret: BITTREX_API_SECRET,
 })
@@ -15,6 +16,7 @@ export const BACKTEST = false
 export const PAPER_TRADE = true
 export const PAIR = 'BTC-OMG'
 export const STRATEGY = 'MA-CCI'
+export const RETRY_ORDER_TIME = 5000
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 
 export const newSession = async (name) => {
