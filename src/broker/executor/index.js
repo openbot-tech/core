@@ -46,6 +46,8 @@ const getBalancesObservable = Observable.bindNodeCallback(bittrex.getbalances)
 const getOrderBookObservable = Observable.bindNodeCallback(bittrex.getorderbook)
 const getOpenOrdersObservable = Observable.bindNodeCallback(bittrex.getopenorders)
 const cancelOrderObservable = Observable.bindNodeCallback(bittrex.cancel)
+const buyLimitObservable = Observable.bindNodeCallback(bittrex.buylimit)
+const sellLimitObservable = Observable.bindNodeCallback(bittrex.selllimit)
 
 
 /**
@@ -78,8 +80,8 @@ export const executeOrder = (
   orderData,
   pair = PAIR,
   retryOrderTime = RETRY_ORDER_TIME,
-  buyLimit,
-  sellLimit,
+  buyLimit = buyLimitObservable,
+  sellLimit = sellLimitObservable,
   testScheduler,
 ) =>
   (signalData.type === 'buy'
@@ -113,8 +115,8 @@ export const executeOrderAndCancelIfNoFillObservable = (
   pair = PAIR,
   getBalances = getBalancesObservable,
   getOrderBook = getOrderBookObservable,
-  buyLimit,
-  sellLimit,
+  buyLimit = buyLimitObservable,
+  sellLimit = sellLimitObservable,
   getOpenOrders = getOpenOrdersObservable,
   cancelOrderReq = cancelOrderObservable,
   retryOrderTime = RETRY_ORDER_TIME,
