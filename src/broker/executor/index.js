@@ -35,9 +35,15 @@ export const getHighestOrderForType = (orderBook, signalData) => {
   return false
 }
 
-export const calculateQuantity = (balance, order) => {
-  if (balance && order && order.Rate) {
-    return { quantity: balance / order.Rate, rate: order.Rate }
+export const getFee = (amount, fee = 0.25) => amount * (1 - (fee / 100))
+
+export const calculateQuantity = (signalData, balance, order) => {
+  if (balance && order && order.Rate && signalData.type === 'buy') {
+    const amount = balance / order.Rate
+    return { quantity: getFee(amount), rate: order.Rate }
+  }
+  if (balance && order && order.Rate && signalData.type === 'sell') {
+    return { quantity: balance, rate: order.Rate }
   }
   return { rate: 0, quantity: 0 }
 }
@@ -71,7 +77,7 @@ export const getOrderData = (
     .mergeMap(balance => (
       getOrderBook({ market: pair, type: 'both' })
         .map(orderBook => getHighestOrderForType(orderBook.result, signalData))
-        .map(bestOrder => calculateQuantity(balance, bestOrder))
+        .map(bestOrder => calculateQuantity(signalData, balance, bestOrder))
     ))
 )
 
@@ -90,6 +96,7 @@ export const executeOrder = (
     // TODO retry when pattern
     .delay(retryOrderTime, testScheduler)
     .map(order => order && order.result && order.result.uuid)
+    .catch(err => console.log(err))
 
 export const cancelOrder = (
   orderUUID,
@@ -143,16 +150,5 @@ const execute = (
         : Observable.empty()
     ))
 )
-
-/*
-execute({ date: 1528300800,
-  lastCCI5: -128.90699251229532,
-  lastClose: 0.079984,
-  lastLow: 0.07925984,
-  lastSMA20: 0.07948780150000002,
-  lastSMA40: 0.078240221,
-  type: 'sell',
-}, 'OMG-ETH')
-*/
 
 export default execute

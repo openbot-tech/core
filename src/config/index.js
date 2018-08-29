@@ -16,7 +16,7 @@ export const BACKTEST = false
 export const PAPER_TRADE = true
 export const PAIR = 'BTC-OMG'
 export const STRATEGY = 'MA-CCI'
-export const RETRY_ORDER_TIME = 5000
+export const RETRY_ORDER_TIME = 30000
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 
 export const newSession = async (name) => {

@@ -10,6 +10,7 @@ import execute, {
   getOrderData,
   executeOrder,
   orderStatus,
+  getFee,
   executeOrderAndCancelIfNoFillObservable,
 } from '.'
 
@@ -123,12 +124,28 @@ describe('broker/executor', () => {
     expect(getHighestOrderForType(orderBook, sellSignalMockData)).toEqual({ Quantity: 2.89969117, Rate: 0.001039 })
     expect(getHighestOrderForType(orderBook, { ...sellSignalMockData, type: 'nope' })).toEqual(false)
   })
+  it('Should calculate the fee for an order of amount x', () => {
+    expect(getFee(12.791968675586874)).toBe(12.759988753897908)
+    expect(getFee(0)).toBe(0)
+  })
   it('Should calculate the quantity for an order from balance and best order', () => {
-    expect(calculateQuantity(14.21549076, { Quantity: 32.55412402, Rate: 0.0254 }))
-      .toEqual({ rate: 0.0254, quantity: 559.6649905511811 })
-    expect(calculateQuantity(10, { Quantity: 32.55412402, Rate: 1 })).toEqual({ rate: 1, quantity: 10 })
-    expect(calculateQuantity(0, { Quantity: 32.55412402, Rate: 0.0254 })).toEqual({ rate: 0, quantity: 0 })
-    expect(calculateQuantity(100, {})).toEqual({ rate: 0, quantity: 0 })
+    expect(calculateQuantity(buySignalMockData, 14.21549076, { Quantity: 32.55412402, Rate: 0.0254 }))
+      .toEqual({ rate: 0.0254, quantity: getFee(559.6649905511811) })
+    expect(calculateQuantity(buySignalMockData, 10, { Quantity: 32.55412402, Rate: 1 }))
+      .toEqual({ rate: 1, quantity: getFee(10) })
+    expect(calculateQuantity(buySignalMockData, 0, { Quantity: 32.55412402, Rate: 0.0254 }))
+      .toEqual({ rate: 0, quantity: 0 })
+    expect(calculateQuantity(buySignalMockData, 100, {}))
+      .toEqual({ rate: 0, quantity: 0 })
+
+    expect(calculateQuantity(sellSignalMockData, 14.21549076, { Quantity: 32.55412402, Rate: 0.0254 }))
+      .toEqual({ rate: 0.0254, quantity: 14.21549076 })
+    expect(calculateQuantity(sellSignalMockData, 10, { Quantity: 32.55412402, Rate: 0.01530308 }))
+      .toEqual({ rate: 0.01530308, quantity: 10 })
+    expect(calculateQuantity(sellSignalMockData, 0, { Quantity: 32.55412402, Rate: 0.0254 }))
+      .toEqual({ rate: 0, quantity: 0 })
+    expect(calculateQuantity(sellSignalMockData, 100, {}))
+      .toEqual({ rate: 0, quantity: 0 })
   })
   it('should get data for the order to execute', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
@@ -136,7 +153,7 @@ describe('broker/executor', () => {
     const expected = 'a'
 
     const expectedMap = {
-      a: { quantity: 559.6649905511811, rate: 0.0254 },
+      a: { quantity: getFee(559.6649905511811), rate: 0.0254 },
     }
 
     const { balancesMockFunc, orderbookMockFunc } = getOrderExecutionMockFunctions(testScheduler)
