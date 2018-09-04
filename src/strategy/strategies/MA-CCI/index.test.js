@@ -11,11 +11,6 @@ describe('Strategy/MA-CCI', () => {
     expect.assertions(1)
     const buySignal = [
       { date: 1528300800,
-        lastCCI5: -128.90699251229532,
-        lastClose: 0.079984,
-        lastLow: 0.07925984,
-        lastSMA20: 0.07948780150000002,
-        lastSMA40: 0.078240221,
         type: 'buy',
       },
     ]
@@ -29,8 +24,6 @@ describe('Strategy/MA-CCI', () => {
     expect.assertions(1)
     const sellSignal = [
       { date: 1528833600,
-        lastATR14: 0.0012987736096348715,
-        stopLoss: 0.07554199958554769,
         type: 'sell',
       },
     ]
@@ -59,11 +52,6 @@ describe('Strategy/MA-CCI', () => {
     const lhsInput = { x: buyIndicatorData }
     const buySignal =
       { date: 1528300800,
-        lastCCI5: -128.90699251229532,
-        lastClose: 0.079984,
-        lastLow: 0.07925984,
-        lastSMA20: 0.07948780150000002,
-        lastSMA40: 0.078240221,
         type: 'buy',
       }
 
