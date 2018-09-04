@@ -10,9 +10,9 @@ bittrex.options({
   apisecret: BITTREX_API_SECRET,
 })
 
-export const TIME_FRAME = 14400
-export const BACKTEST_DAYS = 200
-export const BACKTEST = false
+export const TIME_FRAME = 60
+export const BACKTEST_DAYS = 1
+export const BACKTEST = true
 export const PAPER_TRADE = true
 export const PAIR = 'BTC-OMG'
 export const STRATEGY = 'MA-CCI'
