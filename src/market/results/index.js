@@ -19,7 +19,7 @@ export const totalResult = (results) => {
 export const tradeResult = (resultPair) => {
   const currentNumber = resultPair.length > 0 && resultPair[0].type === 'buy' && resultPair[0].close
   const newNumber = resultPair.length > 1 && resultPair[1].type === 'sell' && resultPair[1].close
-  const result = ((newNumber - currentNumber) / currentNumber) * 100.0
+  const result = (((newNumber - currentNumber) / currentNumber) * 100.0)
   console.log(chalk.bold('Trade Result: '), logResult(result)) // eslint-disable-line no-console
   return result
 }
