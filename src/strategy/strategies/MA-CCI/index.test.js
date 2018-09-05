@@ -10,7 +10,8 @@ describe('Strategy/MA-CCI', () => {
     // https://api.cryptowat.ch/markets/bittrex/ethbtc/ohlc?periods=14400&before=1528300800&after=1527724800
     expect.assertions(1)
     const buySignal = [
-      { date: 1528300800,
+      { close: 0.079984,
+        date: 1528300800,
         type: 'buy',
       },
     ]
@@ -23,7 +24,8 @@ describe('Strategy/MA-CCI', () => {
     // https://api.cryptowat.ch/markets/bittrex/ethbtc/ohlc?periods=14400&before=1528833600&after=1528531200
     expect.assertions(1)
     const sellSignal = [
-      { date: 1528833600,
+      { close: 0.075537,
+        date: 1528833600,
         type: 'sell',
       },
     ]
@@ -51,7 +53,8 @@ describe('Strategy/MA-CCI', () => {
     const marketDataObj = toMarketDataObject(buyTestData)
     const lhsInput = { x: buyIndicatorData }
     const buySignal =
-      { date: 1528300800,
+      { close: 0.079984,
+        date: 1528300800,
         type: 'buy',
       }
 

@@ -57,6 +57,7 @@ const buy = (indicatorsData, marketData) => {
   const secondLastClose = [...close.slice(0, -1)].pop()
   const secondLastHigh = [...high.slice(0, -1)].pop()
   const lastHigh = [...high].pop()
+  const lastClose = [...close].pop()
 
   const SMA20And40IsSlopingUpwards = lineIsSlopingUpwards(SMA20.result.outReal)
     && lineIsSlopingUpwards(SMA40.result.outReal)
@@ -72,7 +73,7 @@ const buy = (indicatorsData, marketData) => {
       lowOfCandleStickIsEqualOrLowerThanSMA20 &&
       closeOfCandleStickIsAboveSMA40 &&
       buyWhenPriceIsOnePipHigher) {
-    return { type: 'buy', date: [...date].pop() }
+    return { type: 'buy', date: [...date].pop(), close: lastClose }
   }
   return false
 }
@@ -88,7 +89,7 @@ const sell = (indicatorsData, marketData, multiplier = 1.5) => {
   const ATR14withMultiplier = lastATR14 * multiplier
   const stopLoss = secondLastClose - ATR14withMultiplier
   if (lastClose < stopLoss) {
-    return { type: 'sell', date: [...date].pop() }
+    return { type: 'sell', date: [...date].pop(), close: lastClose }
   }
   return false
 }
