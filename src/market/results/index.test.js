@@ -26,10 +26,10 @@ describe('Results', () => {
       { type: 'buy', close: '0.0016282' },
     ]
 
-    expect(tradeResult(profitableTrade)).toBe(70.26357406431207)
-    expect(tradeResult(notProfitableTrade)).toBe(-14.003193710846325)
-    expect(tradeResult(onlyBuyTrade)).toBe(-100)
-    expect(tradeResult(onlySellTrade)).toBe(-100)
+    expect(tradeResult(profitableTrade)).toBe(69.76357406431207)
+    expect(tradeResult(notProfitableTrade)).toBe(-14.503193710846325)
+    expect(tradeResult(onlyBuyTrade)).toBe(-100.5)
+    expect(tradeResult(onlySellTrade)).toBe(-100.5)
   })
   it('should calculate trade profit', () => {
     const profitableTrades = [100, -10]
@@ -64,7 +64,7 @@ describe('Results', () => {
       ],
     }
 
-    const expectedMap = { a: 24.245357180910617 }
+    const expectedMap = { a: 21.900277372661662 }
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
@@ -94,7 +94,7 @@ describe('Results', () => {
       ],
     }
 
-    const expectedMap = { a: 24.245357180910617 }
+    const expectedMap = { a: 21.900277372661662 }
 
     const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
 
@@ -138,6 +138,6 @@ describe('Results', () => {
       .resolves.toEqual([{ session_id: SESSION_ID, type: 'sell' }])
     const resultsQueryPromise = getResults().toPromise()
     await expect(resultsQueryPromise)
-      .resolves.toEqual(100)
+      .resolves.toEqual(99.5)
   })
 })
