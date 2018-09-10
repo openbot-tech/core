@@ -11,7 +11,8 @@ const runStrategy = (marketData, eventLoop) => {
   const marketDataObj = toMarketDataObject(marketData)
 
   strategy(marketDataObj, lastSignal).subscribe((payload) => {
-    lastSignal = payload
+    if (payload.type === 'buy') lastSignal = payload
+    else lastSignal = undefined
     return eventLoop.next({ type, payload })
   })
 }
