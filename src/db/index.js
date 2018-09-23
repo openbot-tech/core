@@ -32,7 +32,15 @@ export const candleQuery = async (params) => {
     params,
   )
   const dbCandleData = await query(
-    'SELECT close_time, open, high, low, close, volume FROM candles WHERE session_id = $1',
+    `SELECT * FROM (
+      SELECT close_time, open, high, low, close, volume 
+      FROM candles 
+      WHERE session_id = $1 
+      ORDER BY close_time DESC
+      LIMIT 300
+    )  AS candles  
+    ORDER BY close_time ASC
+     `,
     [params[0]],
   )
   return toArrayOfArraysDataFromDB(dbCandleData)
@@ -58,12 +66,12 @@ export const resultsQuery = async params => (
       ( 
         select 
           signals.id,
+          candles.id as candle_id,
           type,
           signals.session_id,
           candles.close as close,
           ( 
             select id from signals
-            where session_id = $1
             order by id desc
             limit 1
           ) as last_id,
@@ -76,7 +84,7 @@ export const resultsQuery = async params => (
     where type = 'buy' 
     and id != last_id
     or prev_type ='buy'
-    order by session_id
+    order by candle_id
   `, params)
 )
 

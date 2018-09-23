@@ -4,7 +4,7 @@ import chalk from 'chalk'
 import axios from 'axios'
 import moment from 'moment'
 import { candleQueryObservable } from '../live'
-import { SESSION_ID, TIME_FRAME, BACKTEST_DAYS, PAIR } from '../../config'
+import { SESSION_ID, TIME_FRAME, BACKTEST_DAYS, PAIR, STRATEGY } from '../../config'
 
 /*
 Time periods in seconds
@@ -37,6 +37,7 @@ const after = now.subtract(BACKTEST_DAYS, 'd').unix()
 
 export const introText = (OHLC) => {
   console.log('Pair: ', chalk.bold(PAIR)) // eslint-disable-line no-console
+  console.log('Strategy: ', chalk.bold(STRATEGY)) // eslint-disable-line no-console
   console.log('Time Frame: ', chalk.bold(TIME_FRAME), ' seconds') // eslint-disable-line no-console
   console.log('First candle: ', chalk.bold(moment(OHLC[0][0] * 1000).toDate())) // eslint-disable-line no-console
   console.log('Last candle: ', chalk.bold(moment([...OHLC].pop()[0] * 1000).toDate())) // eslint-disable-line no-console

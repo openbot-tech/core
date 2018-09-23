@@ -1,5 +1,3 @@
-import privateStrategies from 'rxjs-trading-bot-strategies/dist'
-
 let req = []
 const strategies = {}
 
@@ -13,4 +11,4 @@ try {
   req = {}
 }
 
-export default { ...strategies, ...privateStrategies }
+export default { ...strategies }

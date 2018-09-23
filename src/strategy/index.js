@@ -1,20 +1,45 @@
+import { Observable } from 'rxjs'
+import { EventEmitter } from 'events'
 import { toMarketDataObject } from '../parser'
 import { STRATEGY } from '../config/'
 import strategies from './strategies/'
 
-// because we need last signal with close for stoploss
-let lastSignal
-const runStrategy = (marketData, eventLoop) => {
-  const type = 'signal'
-  const strategy = strategies[STRATEGY]
+const type = 'signal'
 
-  const marketDataObj = toMarketDataObject(marketData)
+const strategyEvent = new EventEmitter()
 
-  strategy(marketDataObj, lastSignal).subscribe((payload) => {
-    if (payload.type === 'buy') lastSignal = payload
-    else lastSignal = undefined
-    return eventLoop.next({ type, payload })
-  })
-}
+const strategyManager = (marketData, eventLoop) => strategyEvent.emit('marketData', { marketData, eventLoop })
 
-export default runStrategy
+const marketDataEventObservable = Observable.fromEventPattern(h => strategyEvent.on('marketData', h))
+
+export let lastSignal // eslint-disable-line import/no-mutable-exports
+
+export const executeStrategies = (
+  marketDataEvent = marketDataEventObservable,
+  strategyFunc = strategies[STRATEGY],
+) =>
+  marketDataEvent
+    .concatMap(({ marketData, eventLoop }) =>
+      Observable.of(toMarketDataObject(marketData))
+        .flatMap(strategyData => strategyFunc(strategyData, lastSignal))
+        .filter(signalData => !!signalData === true)
+        .map(signalData => ({ eventLoop, signalData })))
+
+
+export const executestrategiesAndEmitSignals = (
+  marketDataEvent = marketDataEventObservable,
+  strategyFunc = strategies[STRATEGY],
+) =>
+  executeStrategies(marketDataEvent, strategyFunc)
+    .map(({ eventLoop, signalData }) => {
+      if (signalData.type === 'buy') lastSignal = signalData
+      else lastSignal = undefined
+      return eventLoop.next({ type, payload: signalData })
+    })
+
+
+executestrategiesAndEmitSignals()
+  .subscribe()
+
+
+export default strategyManager
