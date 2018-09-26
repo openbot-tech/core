@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "Config/*": ["src/config/*"],
+      "Core/*": ["src/core/*"],
+      "Util/*": ["src/util/*"],
+    }
+  },
+  "exclude": ["node_modules", "dist", "coverage", "migrations"]
+}

@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
   ]
   const entry = ['babel-polyfill', './src/']
 
-  if (argv.mode === 'development') {
+  if (argv && argv.mode === 'development') {
     entry.unshift(WEBPACK_HOT_PATH)
     plugins.push(new webpack.HotModuleReplacementPlugin())
   }
@@ -27,6 +27,13 @@ module.exports = (env, argv) => {
     output: {
       path: path.resolve(__dirname, './dist'),
       filename: 'index.js',
+    },
+    resolve: {
+      alias: {
+        Util: path.resolve(__dirname, 'src/util/'),
+        Core: path.resolve(__dirname, 'src/core/'),
+        Config: path.resolve(__dirname, 'src/config/'),
+      },
     },
     target: 'node',
     externals: [nodeExternals({

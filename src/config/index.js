@@ -1,5 +1,5 @@
 import bittrex from 'node-bittrex-api'
-import { sessionQuery } from '../db'
+import { sessionQuery } from 'Util/db'
 
 const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
 
@@ -10,12 +10,12 @@ bittrex.options({
   apisecret: BITTREX_API_SECRET,
 })
 
-export const TIME_FRAME = 60
-export const BACKTEST_DAYS = 1
+export const TIME_FRAME = 900
+export const BACKTEST_DAYS = 20
 export const BACKTEST = true
 export const PAPER_TRADE = true
 export const PAIR = 'BTC-OMG'
-export const STRATEGY = 'MA-CCI'
+export const STRATEGY = 'STOCH-RSI'
 export const RETRY_ORDER_TIME = 30000
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 

@@ -23,11 +23,12 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-2": "^6.11.0",
     "babel-register": "^6.11.6",
-    "eslint": "^4.13.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
     "jest": "^22.0.4",
     "lint-staged": "^7.1.0",
     "nodemon": "^1.13.3",
@@ -45,8 +46,7 @@
     "pre-commit": "^1.2.2",
     "progress": "^2.0.0",
     "rxjs": "^5.5.5",
-    "rxjs-trading-bot-strategies": "git+ssh://git@github.com/rootkc/rxjs-trading-bot-strategies.git",
-    "talib": "^1.0.3"
+    "rxjs-trading-bot-strategies": "git+ssh://git@github.com/rootkc/rxjs-trading-bot-strategies.git"
   },
   "pre-commit": [
     "lint:staged",
