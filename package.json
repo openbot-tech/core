@@ -6,7 +6,7 @@
   },
   "description": "RxJS Trading bot",
   "scripts": {
-    "test:staged": "jest",
+    "test:staged": "NODE_ENV=test jest",
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run build:watch | nodemon --watch dist/ dist/index.js",

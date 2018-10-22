@@ -1,8 +1,24 @@
 import { TestScheduler, Observable } from 'rxjs'
 import { toMarketDataObject } from 'Util/parser'
-import { executeStrategies, executestrategiesAndEmitSignals, lastSignal } from '.'
+import {
+  executeStrategies,
+  executestrategiesAndEmitSignals,
+  lastSignal,
+  getSocketForEnv,
+} from '.'
 
 describe('Strategy', () => {
+  it('Should get the socket connection for environment', async () => {
+    const mockProdSocket = jest.fn()
+    getSocketForEnv(true, mockProdSocket, 'production')
+    expect(mockProdSocket).toHaveBeenCalled()
+    const mockLiveSocket = jest.fn()
+    getSocketForEnv(false, mockLiveSocket, 'production')
+    expect(mockLiveSocket).not.toHaveBeenCalled()
+    const mockTestSocket = jest.fn()
+    getSocketForEnv(true, mockLiveSocket, 'test')
+    expect(mockTestSocket).not.toHaveBeenCalled()
+  })
   it('should finish the first strategy run before running the next', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup

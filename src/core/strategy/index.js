@@ -5,6 +5,8 @@ import { connectedSocketObservable } from 'Util/socket'
 import { STRATEGY, BACKTEST } from 'Config'
 import strategies from 'Core/strategy/strategies/'
 
+const { NODE_ENV } = process.env
+
 const type = 'signal'
 
 const strategyEvent = new EventEmitter()
@@ -27,16 +29,17 @@ export const executeStrategies = (
         .filter(signalData => !!signalData === true)
         .map(signalData => ({ eventLoop, signalData })))
 
-export const getSocketObservable = (isBacktest, socketObservable) =>
-  (isBacktest ? socketObservable : () => Observable.of({ emit: () => {} }))
+export const getSocketForEnv = (isBacktest, socketObservableFunc, env = NODE_ENV) => (
+  env !== 'test' && isBacktest ? socketObservableFunc : () => Observable.of({ emit: () => {} })
+)()
 
 export const executestrategiesAndEmitSignals = (
   marketDataEvent = marketDataEventObservable,
   strategyFunc = strategies[STRATEGY],
   isBacktest = BACKTEST,
-  socketObservable = connectedSocketObservable,
+  socketObservableFunc = connectedSocketObservable,
 ) =>
-  getSocketObservable(isBacktest, socketObservable)()
+  getSocketForEnv(isBacktest, socketObservableFunc)
     .flatMap(socket => executeStrategies(marketDataEvent, strategyFunc, socket))
     .map(({ eventLoop, signalData }) => {
       if (signalData.type === 'buy') lastSignal = signalData
