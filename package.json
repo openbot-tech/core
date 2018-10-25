@@ -12,7 +12,7 @@
     "dev": "npm run build && npm run build:watch | nodemon --watch dist/ dist/index.js",
     "test": "NODE_ENV=test jest --watch --coverage",
     "build:watch": "webpack --mode development --config webpack.config.js --watch",
-    "build": "webpack --mode production --config webpack.config.js"
+    "build": "webpack --mode production --config webpack.config.js --profile --json > compilation-stats.json"
   },
   "author": "Kenneth Christensen",
   "devDependencies": {
