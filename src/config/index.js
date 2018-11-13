@@ -11,11 +11,11 @@ bittrex.options({
 })
 
 export const TIME_FRAME = 900
-export const BACKTEST_DAYS = 40
+export const BACKTEST_DAYS = 20
 export const BACKTEST = true
 export const PAPER_TRADE = true
 export const PAIR = 'USD-ETH'
-export const STRATEGY = 'STOCH-RSI'
+export const STRATEGY = 'OBV-SMA'
 export const RETRY_ORDER_TIME = 5000
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 

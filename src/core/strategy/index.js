@@ -1,19 +1,17 @@
 import { Observable } from 'rxjs'
-import { EventEmitter } from 'events'
 import { toMarketDataObject } from 'Util/parser'
 import { connectedSocketObservable } from 'Util/socket'
 import { STRATEGY, BACKTEST } from 'Config'
 import strategies from 'Core/strategy/strategies/'
+import { eventQueue } from 'Util/event'
 
 const { NODE_ENV } = process.env
 
 const type = 'signal'
 
-const strategyEvent = new EventEmitter()
+const strategyManager = (marketData, eventLoop) => eventQueue.emit('marketData', { marketData, eventLoop })
 
-const strategyManager = (marketData, eventLoop) => strategyEvent.emit('marketData', { marketData, eventLoop })
-
-const marketDataEventObservable = Observable.fromEventPattern(h => strategyEvent.on('marketData', h))
+const marketDataEventObservable = Observable.fromEvent(eventQueue, 'marketData')
 
 export let lastSignal // eslint-disable-line import/no-mutable-exports
 

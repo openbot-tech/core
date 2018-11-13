@@ -1,13 +1,12 @@
-import { EventEmitter } from 'events'
+import { eventQueue } from 'Util/event'
 import { Observable } from 'rxjs'
 
 const type = 'order'
 
-const portfolioEvent = new EventEmitter()
+const portfolioManager = (signalData, eventLoop) => eventQueue.emit('portfolioData', { signalData, eventLoop })
 
-const portfolioManager = (signalData, eventLoop) => portfolioEvent.emit('portfolioData', { signalData, eventLoop })
+const portfolioEventObservable = Observable.fromEvent(eventQueue, 'portfolioData')
 
-const portfolioEventObservable = Observable.fromEventPattern(h => portfolioEvent.on('portfolioData', h))
 
 portfolioEventObservable
   .distinctUntilChanged(null, ({ signalData }) => signalData.type)
