@@ -3,7 +3,7 @@ import { sessionQuery } from 'Util/db'
 
 const { BITTREX_API_KEY, BITTREX_API_SECRET } = process.env
 
-console.log({ BITTREX_API_KEY, BITTREX_API_SECRET }) // eslint-disable no-console
+console.log({ BITTREX_API_KEY, BITTREX_API_SECRET }) // eslint-disable-line no-console
 
 bittrex.options({
   verbose: true,
