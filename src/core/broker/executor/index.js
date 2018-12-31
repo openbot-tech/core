@@ -149,6 +149,7 @@ const execute = (
         ? executeOrderAndCancelIfNoFill({ idx, ...signalData }, pair)
         : Observable.empty()
     ))
+    .catch(data => console.log('err', data)) // eslint-disable-line no-console
 )
 
 export default execute
