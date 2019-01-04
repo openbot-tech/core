@@ -46,7 +46,7 @@
     "pre-commit": "^1.2.2",
     "progress": "^2.0.0",
     "rxjs": "^5.5.5",
-    "rxjs-trading-bot-strategies": "git+ssh://git@github.com/rootkc/rxjs-trading-bot-strategies.git",
+    "rxjs-trading-bot-strategies": "git+ssh://git@github.com/rootkc/rxjs-trading-bot-strategies.git#0097908be3f45719406c1e377bb4be2b7585cb6d",
     "socket.io": "^2.1.1"
   },
   "pre-commit": [
