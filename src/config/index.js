@@ -14,7 +14,7 @@ bittrex.options({
 
 export const TIME_FRAME = 1800
 export const BACKTEST_DAYS = 80
-export const BACKTEST = true
+export const BACKTEST = false
 export const PAPER_TRADE = false
 export const PAIR = 'BTC-ETH'
 export const STRATEGY = 'OBV-SMA'
