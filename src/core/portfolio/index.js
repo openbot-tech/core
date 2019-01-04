@@ -14,7 +14,7 @@ export const emitOrderSignals = (
     .distinctUntilChanged(null, ({ signalData }) => signalData.type)
     .map(({ eventLoop, signalData }) => eventLoop.next({ type, payload: signalData }))
 
-portfolioEventObservable
+emitOrderSignals()
   .subscribe()
 
 export default portfolioManager

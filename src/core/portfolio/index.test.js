@@ -27,7 +27,7 @@ describe('Portfolio', () => {
 
     expect(eventLoopMock.next).toHaveBeenCalled()
     expect(eventLoopMock.next)
-      .toHaveBeenCalledWith({ payload: { close: 2, date: 1546622484, type: 'sell' }, type: 'order' })
+      .toHaveBeenCalledWith({ payload: signalMock, type: 'order' })
   })
   it('should emit order signals from portfolio event observable when type is different', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
