@@ -7,9 +7,14 @@ const portfolioManager = (signalData, eventLoop) => eventQueue.emit('portfolioDa
 
 const portfolioEventObservable = Observable.fromEvent(eventQueue, 'portfolioData')
 
+export const emitOrderSignals = (
+  eventObservable = portfolioEventObservable,
+) =>
+  eventObservable
+    .distinctUntilChanged(null, ({ signalData }) => signalData.type)
+    .map(({ eventLoop, signalData }) => eventLoop.next({ type, payload: signalData }))
 
 portfolioEventObservable
-  .distinctUntilChanged(null, ({ signalData }) => signalData.type)
-  .subscribe(({ eventLoop, signalData }) => eventLoop.next({ type, payload: signalData }))
+  .subscribe()
 
 export default portfolioManager
