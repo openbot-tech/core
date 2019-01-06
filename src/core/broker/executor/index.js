@@ -96,7 +96,7 @@ export const executeOrder = (
     // TODO retry when pattern
     .delay(retryOrderTime, testScheduler)
     .map(order => order && order.result && order.result.uuid)
-    .catch(err => console.log(err)) // eslint-disable-line no-console
+    .catch(() => Observable.of(false))
 
 export const cancelOrder = (
   orderUUID,

@@ -20,6 +20,7 @@ import openOrdersData from './openOrdersData.json'
 import buyOrderData from './buyOrderData.json'
 import sellOrderData from './sellOrderData.json'
 import cancelOrderData from './cancelOrderData.json'
+import errorOrderData from './errorOrderData.json'
 import openOrdersWithBuyUUIDData from './openOrdersWithBuyUUIDData.json'
 
 const getOrderExecutionMockFunctions = (testScheduler, openOrderData = openOrdersData) => {
@@ -29,6 +30,7 @@ const getOrderExecutionMockFunctions = (testScheduler, openOrderData = openOrder
   const buyOrderMarble = 'j'
   const sellOrderMarble = 'm'
   const cancelOrderMarble = 'i'
+  const errorOrderMarble = '#'
 
   const balancesInput = { x: balancesData }
   const orderbookInput = { y: orderbookData }
@@ -42,14 +44,16 @@ const getOrderExecutionMockFunctions = (testScheduler, openOrderData = openOrder
   const openOrders$ = testScheduler.createColdObservable(openOrdersMarble, openOrdersInput, testScheduler)
   const buyOrder$ = testScheduler.createColdObservable(buyOrderMarble, buyOrderInput, testScheduler)
   const sellOrder$ = testScheduler.createColdObservable(sellOrderMarble, sellOrderInput, testScheduler)
-  const cancelOrderInput$ = testScheduler.createColdObservable(cancelOrderMarble, cancelOrderInput, testScheduler)
+  const cancelOrder$ = testScheduler.createColdObservable(cancelOrderMarble, cancelOrderInput, testScheduler)
+  const errorOrder$ = testScheduler.createColdObservable(errorOrderMarble, undefined, errorOrderData, testScheduler)
 
   const balancesMockFunc = () => balances$
   const orderbookMockFunc = () => orderbook$
   const openOrdersMockFunc = () => openOrders$
   const buyOrderMockFunc = () => buyOrder$
   const sellOrderMockFunc = () => sellOrder$
-  const cancelOrderMockFunc = () => cancelOrderInput$
+  const cancelOrderMockFunc = () => cancelOrder$
+  const errorOrderMockFunc = () => errorOrder$
 
   return {
     balancesMockFunc,
@@ -58,6 +62,7 @@ const getOrderExecutionMockFunctions = (testScheduler, openOrderData = openOrder
     buyOrderMockFunc,
     sellOrderMockFunc,
     cancelOrderMockFunc,
+    errorOrderMockFunc,
   }
 }
 
@@ -210,6 +215,30 @@ describe('broker/executor', () => {
       10,
       buyOrderMockFunc,
       sellOrderMockFunc,
+      testScheduler,
+    )
+
+    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.flush()
+  })
+  it('should execute an order and emit false when an error is thrown', () => {
+    const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
+
+    const expected = '(a|)'
+
+    const expectedMap = {
+      a: false,
+    }
+
+    const { errorOrderMockFunc, buyOrderMockFunc } = getOrderExecutionMockFunctions(testScheduler)
+
+    const actual$ = executeOrder(
+      sellSignalMockData,
+      { quantity: 559.6649905511811, rate: 0.0254 },
+      'BTC-ETH',
+      10,
+      buyOrderMockFunc,
+      errorOrderMockFunc,
       testScheduler,
     )
 
