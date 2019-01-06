@@ -6,11 +6,11 @@
   },
   "description": "RxJS Trading bot",
   "scripts": {
-    "test:staged": "NODE_ENV=test jest",
+    "test:staged": "NODE_ENV=test jest --silent",
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "npm run build && npm run build:watch | nodemon --watch dist/ dist/index.js",
-    "test": "NODE_ENV=test jest --watch --coverage",
+    "test": "NODE_ENV=test jest --silent --watch --coverage",
     "build:watch": "webpack --mode development --config webpack.config.js --watch",
     "build": "webpack --mode production --config webpack.config.js --profile --json > compilation-stats.json"
   },
