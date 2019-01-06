@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs'
 import { toMarketDataObject } from 'Util/parser'
-import { connectedSocketObservable } from 'Util/socket'
+import { connectedSocketObservable, mockSocketEmitterObservable } from 'Util/socket'
 import { STRATEGY, BACKTEST } from 'Config'
 import strategies from 'Core/strategy/strategies/'
 import { eventQueue } from 'Util/event'
@@ -15,30 +15,32 @@ const marketDataEventObservable = Observable.fromEvent(eventQueue, 'marketData')
 
 export let lastSignal // eslint-disable-line import/no-mutable-exports
 
-export const executeStrategies = (
-  marketDataEvent = marketDataEventObservable,
-  strategyFunc = strategies[STRATEGY],
-  socket,
-) =>
-  marketDataEvent
-    .concatMap(({ marketData, eventLoop }) =>
-      Observable.of(toMarketDataObject(marketData))
-        .flatMap(strategyData => strategyFunc(strategyData, lastSignal, socket))
-        .filter(signalData => !!signalData === true)
-        .map(signalData => ({ eventLoop, signalData })))
-
 export const getSocketForEnv = (isBacktest, socketObservableFunc, env = NODE_ENV) => (
-  env !== 'test' && isBacktest ? socketObservableFunc : () => Observable.of({ emit: () => {} })
+  env !== 'test' && isBacktest ? socketObservableFunc : () => mockSocketEmitterObservable
 )()
 
-export const executestrategiesAndEmitSignals = (
+export const executeStrategies = (
   marketDataEvent = marketDataEventObservable,
   strategyFunc = strategies[STRATEGY],
   isBacktest = BACKTEST,
   socketObservableFunc = connectedSocketObservable,
+  env = NODE_ENV,
 ) =>
-  getSocketForEnv(isBacktest, socketObservableFunc)
-    .flatMap(socket => executeStrategies(marketDataEvent, strategyFunc, socket))
+  marketDataEvent
+    .withLatestFrom(getSocketForEnv(isBacktest, socketObservableFunc, env))
+    .concatMap(([{ marketData, eventLoop }, socket]) =>
+      Observable.of(toMarketDataObject(marketData))
+        .flatMap(strategyData =>
+          strategyFunc(strategyData, lastSignal, socket))
+        .filter(signalData => !!signalData === true)
+        .map(signalData => ({ eventLoop, signalData })))
+
+
+export const executestrategiesAndEmitSignals = (
+  marketDataEvent = marketDataEventObservable,
+  strategyFunc = strategies[STRATEGY],
+) =>
+  executeStrategies(marketDataEvent, strategyFunc)
     .map(({ eventLoop, signalData }) => {
       if (signalData.type === 'buy') lastSignal = signalData
       else lastSignal = undefined
