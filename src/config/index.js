@@ -17,7 +17,7 @@ export const BACKTEST_DAYS = 80
 export const BACKTEST = false
 export const PAPER_TRADE = false
 export const PAIR = 'BTC-ETH'
-export const STRATEGY = 'OBV-SMA'
+export const STRATEGY = 'BBANDS-RSI'
 export const RETRY_ORDER_TIME = 5000
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 

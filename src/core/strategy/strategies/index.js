@@ -1,5 +1,14 @@
-import privateStrategies from 'rxjs-trading-bot-strategies/dist'
+let req = []
+const strategies = {}
 
-// TODO add sample strategy
+try {
+  req = require.context('.', true, /\.\/[^/]+\/index\.js$/)
+  req.keys().forEach((key) => {
+    const strategyName = key.replace(/^.+\/([^/]+)\/index\.js/, '$1')
+    strategies[strategyName] = req(`${key}`).default
+  })
+} catch (e) {
+  req = {}
+}
 
-export default { ...privateStrategies }
+export default strategies
