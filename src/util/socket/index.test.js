@@ -6,7 +6,7 @@ describe('Util/socket', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
     const socketMarble = '--x'
-    const expected = 'a-b'
+    const expectedMarble = 'a-b'
 
     const socketInput = {
       x: { ...mockSocketEmitter, prod: true },
@@ -24,7 +24,7 @@ describe('Util/socket', () => {
 
     const actual$ = connectedSocketObservable(socketMockFunc, fromEventMock)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedInput)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
 })
