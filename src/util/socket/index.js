@@ -1,12 +1,14 @@
 import { Observable } from 'rxjs'
 import io from 'socket.io'
 
-export const mockSocketEmitterObservable = Observable.of({ emit: () => {} })
+export const mockSocketEmitter = { emit: () => {} }
 
-export const connectedSocketObservable = () => {
-  const server = io.listen(1337)
+export const mockSocketEmitterObservable = Observable.of(mockSocketEmitter)
+
+export const connectedSocketObservable = (socketServer = io.listen, fromEvent = Observable.fromEvent) => {
+  const server = socketServer(1337)
   return Observable.merge(
     mockSocketEmitterObservable,
-    Observable.fromEvent(server, 'connection'),
+    fromEvent(server, 'connection'),
   )
 }
