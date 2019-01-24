@@ -270,9 +270,9 @@ describe('Core/market/live', () => {
     const socketMarble = '--------|'
     const expectedMarble = '--------|'
 
-    const lhs$ = testScheduler.createHotObservable(socketMarble)
+    const socket$ = testScheduler.createHotObservable(socketMarble)
 
-    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
+    const actual$ = candleObservable(socket$, 0.005, testCandleQuery, testScheduler)
 
     testScheduler.expectObservable(actual$).toBe(expectedMarble)
     testScheduler.flush()

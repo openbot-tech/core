@@ -18,9 +18,9 @@ describe('Core/Portfolio', () => {
       a: undefined,
     }
 
-    const lhs$ = testScheduler.createColdObservable(eventMarble, eventInput)
+    const event$ = testScheduler.createColdObservable(eventMarble, eventInput)
 
-    const actual$ = emitOrderSignals(lhs$)
+    const actual$ = emitOrderSignals(event$)
 
     testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
@@ -52,9 +52,9 @@ describe('Core/Portfolio', () => {
       b: undefined,
     }
 
-    const lhs$ = testScheduler.createColdObservable(eventMarble, eventInput)
+    const event$ = testScheduler.createColdObservable(eventMarble, eventInput)
 
-    const actual$ = emitOrderSignals(lhs$)
+    const actual$ = emitOrderSignals(event$)
 
     testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()

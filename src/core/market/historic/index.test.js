@@ -43,9 +43,9 @@ describe('Core/market/historic', () => {
       c: [null, moment(1516780800 * 1000).toDate(), 0.0014798, 0.0015099, 0.0014691, 0.0015012, 10],
     }
 
-    const lhs$ = testScheduler.createHotObservable(candlesMarble, candlesInput)
+    const candles$ = testScheduler.createHotObservable(candlesMarble, candlesInput)
 
-    const actual$ = dripObservable(lhs$, Observable.from, candleQueryFuncMock)
+    const actual$ = dripObservable(candles$, Observable.from, candleQueryFuncMock)
 
     testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
