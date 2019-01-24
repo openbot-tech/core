@@ -48,10 +48,10 @@ describe('Results', () => {
   it('should return total profit from trades', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'x|'
-    const expected = '-(a|)'
+    const resultMarble = 'x|'
+    const expectedMarble = '-(a|)'
 
-    const lhsInput = {
+    const resultInput = {
       x: [
         { type: 'buy', close: '0.0013624' },
         { type: 'sell', close: '0.0013949' },
@@ -64,22 +64,22 @@ describe('Results', () => {
       ],
     }
 
-    const expectedMap = { a: 21.900277372661662 }
+    const expectedInput = { a: 21.900277372661662 }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const result$ = testScheduler.createHotObservable(resultMarble, resultInput)
 
-    const actual$ = getResults(lhs$)
+    const actual$ = getResults(result$)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should return total profit from trades with non buy / sell pairs', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'x|'
-    const expected = '-(a|)'
+    const resultMarble = 'x|'
+    const expectedMarble = '-(a|)'
 
-    const lhsInput = {
+    const resultInput = {
       x: [
         { type: 'sell', close: '0.0012624' },
         { type: 'buy', close: '0.0013624' },
@@ -94,13 +94,13 @@ describe('Results', () => {
       ],
     }
 
-    const expectedMap = { a: 21.900277372661662 }
+    const expectedInput = { a: 21.900277372661662 }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const result$ = testScheduler.createHotObservable(resultMarble, resultInput)
 
-    const actual$ = getResults(lhs$)
+    const actual$ = getResults(result$)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should post candle and signals to db and return results', async () => {

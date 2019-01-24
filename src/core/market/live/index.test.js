@@ -9,27 +9,27 @@ import {
 } from '.'
 import 'Util/db/testSetup'
 
-describe('Live market data', () => {
+describe('Core/market/live', () => {
   // global helper functions
   const testCandleQuery = data => Observable.of(data)
 
   it('should create a socket connection and emit fills data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble1 = 'a'
-    const lhsMarble2 = 'f'
-    const lhsMarble3 = '-m-n-j'
-    const expected = '---x--'
+    const clientMarble = 'a'
+    const onConnectMarble = 'f'
+    const subscribeMarble = '-m-n-j'
+    const expectedMarble = '---x--'
 
-    const lhs1Input = {
+    const clientInput = {
       a: { message: undefined },
     }
 
-    const lhs2Input = {
+    const onConnectInput = {
       f: { message: 'socket connected' },
     }
 
-    const lhs3Input = {
+    const subscribeInput = {
       m: {
         unhandled_data: {
           R: true,
@@ -98,7 +98,7 @@ describe('Live market data', () => {
       },
     }
 
-    const expectedMap = {
+    const expectedInput = {
       x: [{
         OrderType: 'SELL',
         Rate: 10918.99999998,
@@ -112,13 +112,13 @@ describe('Live market data', () => {
       }],
     }
 
-    const lhs1$ = testScheduler.createHotObservable(lhsMarble1, lhs1Input)
-    const lhs2$ = testScheduler.createHotObservable(lhsMarble2, lhs2Input)
-    const lhs3$ = testScheduler.createHotObservable(lhsMarble3, lhs3Input)
+    const client$ = testScheduler.createHotObservable(clientMarble, clientInput)
+    const onConnect$ = testScheduler.createHotObservable(onConnectMarble, onConnectInput)
+    const subsribe$ = testScheduler.createHotObservable(subscribeMarble, subscribeInput)
 
-    const actual$ = socketObservable(lhs1$, lhs2$, lhs3$)
+    const actual$ = socketObservable(client$, onConnect$, subsribe$)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should create candle from array of ticker data', () => {
@@ -151,10 +151,10 @@ describe('Live market data', () => {
   it('should create candle from ticker data after x seconds', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'x-y-(z|)'
-    const expected = '----(a|)'
+    const socketMarble = 'x-y-(z|)'
+    const expectedMarble = '----(a|)'
 
-    const lhsInput = {
+    const socketInput = {
       x: [
         { OrderType: 'BUY',
           Rate: 0.0923,
@@ -178,7 +178,7 @@ describe('Live market data', () => {
       ],
     }
 
-    const expectedMap = {
+    const expectedInput = {
       a: [
         null,
         moment('2018-01-24T19:09:03.000').toDate(), // closeTime
@@ -190,20 +190,20 @@ describe('Live market data', () => {
       ],
     }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const socket$ = testScheduler.createHotObservable(socketMarble, socketInput)
 
-    const actual$ = candleObservable(lhs$, 0.04, testCandleQuery, testScheduler)
+    const actual$ = candleObservable(socket$, 0.04, testCandleQuery, testScheduler)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should concat arrays after buffer', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = '-x-y-(z|)'
-    const expected = '-a-b-(c|)'
+    const socketMarble = '-x-y-(z|)'
+    const expectedMarble = '-a-b-(c|)'
 
-    const lhsInput = {
+    const socketInput = {
       x: [
         { OrderType: 'BUY',
           Rate: 0.0923,
@@ -227,7 +227,7 @@ describe('Live market data', () => {
       ],
     }
 
-    const expectedMap = {
+    const expectedInput = {
       a: [
         null,
         moment('2018-01-24T19:07:03.000').toDate(), // closeTime
@@ -257,33 +257,33 @@ describe('Live market data', () => {
       ],
     }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const socket$ = testScheduler.createHotObservable(socketMarble, socketInput)
 
-    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
+    const actual$ = candleObservable(socket$, 0.005, testCandleQuery, testScheduler)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('shouldnt emit after if no data', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = '--------|'
-    const expected = '--------|'
+    const socketMarble = '--------|'
+    const expectedMarble = '--------|'
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble)
+    const lhs$ = testScheduler.createHotObservable(socketMarble)
 
     const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
 
-    testScheduler.expectObservable(actual$).toBe(expected)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble)
     testScheduler.flush()
   })
   it('should retry after error', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = '-x-y-(z|)'
-    const expected = '-a---(c|)'
+    const socketMarble = '-x-y-(z|)'
+    const expectedMarble = '-a---(c|)'
 
-    const lhsInput = {
+    const socketInput = {
       x: [
         { OrderType: 'BUY',
           Rate: 0.0923,
@@ -301,7 +301,7 @@ describe('Live market data', () => {
       ],
     }
 
-    const expectedMap = {
+    const expectedInput = {
       a: [
         null,
         moment('2018-01-24T19:07:03.000').toDate(), // closeTime
@@ -322,11 +322,11 @@ describe('Live market data', () => {
       ],
     }
 
-    const lhs$ = testScheduler.createHotObservable(lhsMarble, lhsInput)
+    const socket$ = testScheduler.createHotObservable(socketMarble, socketInput)
 
-    const actual$ = candleObservable(lhs$, 0.005, testCandleQuery, testScheduler)
+    const actual$ = candleObservable(socket$, 0.005, testCandleQuery, testScheduler)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should post candle to db and return rows from that session', async () => {
