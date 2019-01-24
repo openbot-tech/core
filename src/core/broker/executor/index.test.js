@@ -66,7 +66,7 @@ const getOrderExecutionMockFunctions = (testScheduler, openOrderData = openOrder
   }
 }
 
-describe('broker/executor', () => {
+describe('Core/broker/executor', () => {
   const buySignalMockData = { date: 1528300800,
     lastCCI5: -128.90699251229532,
     lastClose: 0.079984,
@@ -155,9 +155,9 @@ describe('broker/executor', () => {
   it('should get data for the order to execute', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = 'a'
+    const expectedMarble = 'a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: { quantity: getFee(559.6649905511811), rate: 0.0254 },
     }
 
@@ -170,15 +170,15 @@ describe('broker/executor', () => {
       orderbookMockFunc,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute a buy order and wait to emit the response', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = '-a'
+    const expectedMarble = '-a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: buyOrderData.result.uuid,
     }
 
@@ -194,15 +194,15 @@ describe('broker/executor', () => {
       testScheduler,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute a sell order and wait to emit the response', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = '-a'
+    const expectedMarble = '-a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: sellOrderData.result.uuid,
     }
 
@@ -218,15 +218,15 @@ describe('broker/executor', () => {
       testScheduler,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute an order and emit false when an error is thrown', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = '(a|)'
+    const expectedMarble = '(a|)'
 
-    const expectedMap = {
+    const expectedInput = {
       a: false,
     }
 
@@ -242,15 +242,15 @@ describe('broker/executor', () => {
       testScheduler,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should check if order is executed and return undefined because uuid is not in openOrders', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = 'a'
+    const expectedMarble = 'a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: false,
     }
 
@@ -262,15 +262,15 @@ describe('broker/executor', () => {
       openOrdersMockFunc,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should check if order is executed and return order because uuid is in openOrders', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = 'a'
+    const expectedMarble = 'a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: openOrdersWithBuyUUIDData.result[0].OrderUuid,
     }
 
@@ -282,15 +282,15 @@ describe('broker/executor', () => {
       openOrdersMockFunc,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute order and return false because uuid is not in orderbook', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = '-a'
+    const expectedMarble = '-a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: false,
     }
 
@@ -316,15 +316,15 @@ describe('broker/executor', () => {
       testScheduler,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute order and return cancel order response because uuid is in orderbook', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
 
-    const expected = '-a'
+    const expectedMarble = '-a'
 
-    const expectedMap = {
+    const expectedInput = {
       a: cancelOrderData,
     }
 
@@ -350,7 +350,7 @@ describe('broker/executor', () => {
       testScheduler,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should execute order and retry if order isnt executed after x seconds', () => {
@@ -359,7 +359,7 @@ describe('broker/executor', () => {
     const executeOrderAndCancelIfNoFillMarble = 'x'
     const executeOrderAndFalseMarble = 'y'
 
-    const expected = '(ab)'
+    const expectedMarble = '(ab)'
 
 
     const executeOrderAndCancelIfNoFillInput = {
@@ -370,7 +370,7 @@ describe('broker/executor', () => {
       x: false,
     }
 
-    const expectedMap = {
+    const expectedInput = {
       a: cancelOrderData,
       b: undefined,
     }
@@ -398,7 +398,7 @@ describe('broker/executor', () => {
       executeOrderAndCancelIfNoFillMockFunc,
     )
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
 })

@@ -5,7 +5,7 @@ import { candleQueryObservable } from 'Core/market/live'
 import executeOrder from '.'
 import 'Util/db/testSetup'
 
-describe('Broker', () => {
+describe('Core/Broker', () => {
   it('should post candle and signals to db and return results', async () => {
     expect.assertions(4)
     const testDbCandle1 = [
