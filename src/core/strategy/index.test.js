@@ -7,7 +7,7 @@ import {
   getSocketForEnv,
 } from '.'
 
-describe('Strategy', () => {
+describe('Core/Strategy', () => {
   it('Should get the socket connection for environment', async () => {
     const mockProdSocket = jest.fn()
     getSocketForEnv(true, mockProdSocket, 'production')
@@ -22,8 +22,8 @@ describe('Strategy', () => {
   it('should finish the first strategy run before running the next', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'xy'
-    const expected = '---ab'
+    const marketMarble = 'xy'
+    const expectedMarble = '---ab'
 
     const marketDataMock =
       [
@@ -36,27 +36,27 @@ describe('Strategy', () => {
 
     const strategyMockFunc = marketData => Observable.of(marketData).delay(marketData.close.length * 10, testScheduler)
 
-    const lhsInput = {
+    const marketInput = {
       x: { marketData: marketDataMock, eventLoop: null },
       y: { marketData: marketDataMockShorter, eventLoop: null },
     }
-    const expectedMap = {
+    const expectedInput = {
       a: { eventLoop: null, signalData: toMarketDataObject(marketDataMock) },
       b: { eventLoop: null, signalData: toMarketDataObject(marketDataMockShorter) },
     }
 
-    const lhs$ = testScheduler.createColdObservable(lhsMarble, lhsInput)
+    const market$ = testScheduler.createColdObservable(marketMarble, marketInput)
 
-    const actual$ = executeStrategies(lhs$, strategyMockFunc, false)
+    const actual$ = executeStrategies(market$, strategyMockFunc, false)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should finish the first strategy run before running the next if first doesnt emit', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'xy'
-    const expected = '----b'
+    const marketMarble = 'xy'
+    const expectedMarble = '----b'
 
     const marketDataMock =
       [
@@ -71,27 +71,27 @@ describe('Strategy', () => {
       Observable.of(marketData.close.length === 3 ? false : marketData)
         .delay(marketData.close.length * 10, testScheduler)
 
-    const lhsInput = {
+    const marketInput = {
       x: { marketData: marketDataMock, eventLoop: null },
       y: { marketData: marketDataMockShorter, eventLoop: null },
     }
-    const expectedMap = {
+    const expectedInput = {
       b: { eventLoop: null, signalData: toMarketDataObject(marketDataMockShorter) },
     }
 
-    const lhs$ = testScheduler.createColdObservable(lhsMarble, lhsInput)
+    const market$ = testScheduler.createColdObservable(marketMarble, marketInput)
 
-    const actual$ = executeStrategies(lhs$, strategyMockFunc, false)
+    const actual$ = executeStrategies(market$, strategyMockFunc, false)
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
   })
   it('should take latest emit from socket observable and input to strategy', () => {
     const testScheduler = new TestScheduler((a, b) => expect(a).toEqual(b))
     // setup
-    const lhsMarble = 'xy'
+    const marketMarble = 'xy'
     const socketMarble = 'ij'
-    const expected = '---ab'
+    const expectedMarble = '---ab'
 
     const marketDataMock =
       [
@@ -107,7 +107,7 @@ describe('Strategy', () => {
       return Observable.of(marketData).delay(marketData.close.length * 10, testScheduler)
     }
 
-    const lhsInput = {
+    const marketInput = {
       x: { marketData: marketDataMock, eventLoop: null },
       y: { marketData: marketDataMockShorter, eventLoop: null },
     }
@@ -119,19 +119,19 @@ describe('Strategy', () => {
       i: firstSocket,
       j: secondSocket,
     }
-    const expectedMap = {
+    const expectedInput = {
       a: { eventLoop: null, signalData: toMarketDataObject(marketDataMock) },
       b: { eventLoop: null, signalData: toMarketDataObject(marketDataMockShorter) },
     }
 
-    const lhs$ = testScheduler.createColdObservable(lhsMarble, lhsInput)
+    const market$ = testScheduler.createColdObservable(marketMarble, marketInput)
     const socket$ = testScheduler.createColdObservable(socketMarble, socketInput)
 
     const socketMockFunc = () => socket$
 
-    const actual$ = executeStrategies(lhs$, strategyMockFunc, true, socketMockFunc, 'production')
+    const actual$ = executeStrategies(market$, strategyMockFunc, true, socketMockFunc, 'production')
 
-    testScheduler.expectObservable(actual$).toBe(expected, expectedMap)
+    testScheduler.expectObservable(actual$).toBe(expectedMarble, expectedInput)
     testScheduler.flush()
     expect(firstSocket.emit).toHaveBeenCalled()
     expect(secondSocket.emit).toHaveBeenCalled()
