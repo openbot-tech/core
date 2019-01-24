@@ -4,7 +4,7 @@ import {
   toArrayOfArraysDataFromAPI,
 } from '.'
 
-describe('Parser', () => {
+describe('Util/Parser', () => {
   it('should convert array market data to an object containing arrays', () => {
     const marketDataArr = [
       [
