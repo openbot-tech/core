@@ -6,7 +6,7 @@ import { candleQueryObservable } from 'Core/market/live'
 import getResults, { tradeResult, totalResult } from '.'
 import 'Util/db/testSetup'
 
-describe('Results', () => {
+describe('Core/market/results', () => {
   it('should calculate trade profit', () => {
     const profitableTrade = [
       { type: 'buy', close: '0.0005691' },

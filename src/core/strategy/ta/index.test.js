@@ -2,7 +2,7 @@ import { toMarketDataObject } from 'Util/parser'
 import { removeNumberOfElements, execute, getMarketArguments } from '.'
 import buyTestData from './buyTestData.json'
 
-describe('Stragedy TA', () => {
+describe('Core/strategy/ta', () => {
   it('should remove number of slice elements', () => {
     expect(removeNumberOfElements([1, 2, 3])).toEqual([1, 2, 3])
     expect(removeNumberOfElements([1, 2, 3], -1)).toEqual([1, 2])

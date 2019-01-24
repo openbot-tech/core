@@ -15,7 +15,7 @@ import {
   runIndicatorsAndStrategyFunc,
 } from '.'
 
-describe('Stragedy Utils', () => {
+describe('Core/strategy/util', () => {
   it('should check if the last x elements of a line is sloping upwards minus the last one', () => {
     const arrIsSlopingUpwards = [
       13.907000000000007,

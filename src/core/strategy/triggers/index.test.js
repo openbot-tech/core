@@ -14,7 +14,7 @@ import {
   bbandsIsOverBought,
 } from '.'
 
-describe('triggers', () => {
+describe('Core/strategy/triggers', () => {
   it('should be true if CCI is less than minus 100', async () => {
     const CCIMockData = createTAResult('CCI100', [[20, 28, 31]])
     const CCIMockDataMinusHundred = createTAResult('CCI100', [[20, 28, -100]])

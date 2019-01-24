@@ -7,7 +7,7 @@ import {
   getSocketForEnv,
 } from '.'
 
-describe('Core/Strategy', () => {
+describe('Core/strategy', () => {
   it('Should get the socket connection for environment', async () => {
     const mockProdSocket = jest.fn()
     getSocketForEnv(true, mockProdSocket, 'production')
