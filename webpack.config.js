@@ -11,6 +11,7 @@ module.exports = (env, argv) => {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         BITTREX_API_KEY: JSON.stringify(process.env.BITTREX_API_KEY),
         BITTREX_API_SECRET: JSON.stringify(process.env.BITTREX_API_SECRET),
+        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
       },
     }),
   ]

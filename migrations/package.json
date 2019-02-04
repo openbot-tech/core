@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "migrate": "db-migrate up"
+  },
+  "dependencies": {
+    "db-migrate": "^0.11.5",
+    "db-migrate-pg": "^0.4.0"
+  }
+}

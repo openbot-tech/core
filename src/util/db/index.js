@@ -1,10 +1,11 @@
 import { Pool } from 'pg'
 import { toArrayOfArraysDataFromDB } from 'Util/parser'
-import { dev, test } from 'Config/database.json'
 
-export const getDBForEnv = env => (env === 'test' ? test : dev)
+const connection = {
+  connectionString: process.env.DATABASE_URL,
+}
 
-export const pool = new Pool(getDBForEnv(process.env.NODE_ENV))
+export const pool = new Pool(connection)
 
 const query = async (text, params) => {
   const queryData = await pool.query(text, params)
