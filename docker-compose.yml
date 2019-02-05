@@ -1,6 +1,7 @@
-version: "3"
+version: "3.7"
 services:
   app:
+    command: npm run start
     build:
       context: .
       args:

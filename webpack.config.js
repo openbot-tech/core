@@ -41,6 +41,12 @@ module.exports = (env, argv) => {
       whitelist: [WEBPACK_HOT_PATH],
     })],
     plugins,
+    devServer: {
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+      },
+    },
     module: {
       rules: [
         {

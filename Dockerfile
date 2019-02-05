@@ -1,4 +1,5 @@
-FROM node:8.12.0-alpine
+FROM node:8.12.0-alpine as base
+
 ARG DATABASE_URL
 ARG BITTREX_API_KEY
 ARG BITTREX_API_SECRET
@@ -16,9 +17,9 @@ RUN apk add --no-cache --virtual .gyp \
         g++ \
     && npm install \
     && apk del .gyp
+
+FROM base as build
  
 COPY . .
 
 RUN npm run build
-
-CMD [ "npm", "run", "start" ]
