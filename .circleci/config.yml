@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/repo
+    steps:
+        - checkout
+        - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up
+
