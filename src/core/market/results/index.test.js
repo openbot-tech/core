@@ -106,7 +106,7 @@ describe('Core/market/results', () => {
   it('should post candle and signals to db and return results', async () => {
     expect.assertions(4)
     const testDbCandle1 = [
-      moment('2018-01-24T19:09:03.000').toDate(), // closeTime
+      moment('2018-01-24T19:09:03.000+01:00').toDate(), // closeTime
       0.0925, // openPrice
       0.0925, // highPrice
       0.0925, // lowPrice
@@ -114,7 +114,7 @@ describe('Core/market/results', () => {
       1, // volume
     ]
     const testDbCandle2 = [
-      moment('2018-01-24T19:10:03.000').toDate(), // closeTime
+      moment('2018-01-24T19:10:03.000+01:00').toDate(), // closeTime
       0.0926, // openPrice
       0.0926, // highPrice
       0.0926, // lowPrice

@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  app:
+    command: npm run start
+    build:
+      context: .
+      args:
+        DATABASE_URL: "postgresql://postgres:postgres@postgres/rxjs_trading_bot"
+        BITTREX_API_KEY: ${BITTREX_API_KEY}
+        BITTREX_API_SECRET: ${BITTREX_API_SECRET}
+    ports:
+      - "1337:1337"
+    depends_on:
+      - migration
+      - postgres
+  postgres:
+    image: postgres:11.1-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: 'rxjs_trading_bot'
+  migration: 
+    build: ./migrations
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres/rxjs_trading_bot

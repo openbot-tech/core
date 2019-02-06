@@ -332,7 +332,7 @@ describe('Core/market/live', () => {
   it('should post candle to db and return rows from that session', async () => {
     expect.assertions(1)
     const testDbCandle = [
-      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+      moment('2018-01-24T19:09:03.063+01:00').toDate(), // closeTime
       0.0925, // openPrice
       0.0925, // highPrice
       0.0925, // lowPrice
@@ -351,7 +351,7 @@ describe('Core/market/live', () => {
   it('should post candle to db and return rows from that session for several rows', async () => {
     expect.assertions(1)
     const testDbCandle1 = [
-      moment('2018-01-24T19:09:03.063').toDate(), // closeTime
+      moment('2018-01-24T19:09:03.063+01:00').toDate(), // closeTime
       0.0925, // openPrice
       0.0925, // highPrice
       0.0925, // lowPrice
@@ -359,7 +359,7 @@ describe('Core/market/live', () => {
       1, // volume
     ]
     const testDbCandle2 = [
-      moment('2018-01-24T19:10:03.063').toDate(), // closeTime
+      moment('2018-01-24T19:10:03.063+01:00').toDate(), // closeTime
       0.0926, // openPrice
       0.0926, // highPrice
       0.0926, // lowPrice

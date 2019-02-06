@@ -9,10 +9,10 @@
     "test:staged": "NODE_ENV=test jest --silent",
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
-    "dev": "npm run build && npm run build:watch | nodemon --watch dist/ dist/index.js",
+    "dev": "npm run build:watch | nodemon --watch dist/ dist/index.js",
     "test": "NODE_ENV=test jest --silent --watch --coverage",
-    "build:watch": "webpack --mode development --config webpack.config.js --watch",
-    "build": "webpack --mode production --config webpack.config.js --profile --json > compilation-stats.json"
+    "build:watch": "webpack --mode development --host 0.0.0.0 --config webpack.config.js --watch",
+    "build": "webpack --mode production --config webpack.config.js"
   },
   "author": "Kenneth Christensen",
   "devDependencies": {
@@ -50,7 +50,6 @@
     "tulind": "^0.8.13"
   },
   "pre-commit": [
-    "lint:staged",
-    "test:staged"
+    "lint:staged"
   ]
 }

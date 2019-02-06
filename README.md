@@ -1,11 +1,35 @@
-# RxJS Trading bot
+# OpenBot Core
 
-This bot is build up of four different components that is tied together in the game loop:
+OpenBot is an event-driven open source cryptocurrency trading bot built using Node.js and RxJS. Currently the only exchange implemented is [Bittrex](https://bittrex.com/), when backtesting data from [cryptowat.ch](https://cryptowat.ch/) API is used.
 
-**market:** Has two parts the ```historic``` data handler that fetches data from [cryptowat.ch api](https://cryptowat.ch/docs/api) and then drips the data into the game loop with a ```market``` event. The ```live``` data handler that fetches data from the ```bittrex``` socket connection and creates candle for the given timeframe, which is dripped into the gameloop when a new candle is created with a ```market``` event.
+## Getting started
 
-**strategy:** Which is the same for backtest and live trading, is using ```talib``` for the TA. Currently only the ```MA-CCI``` strategy is implemented, but its made to be extendable. When the stragedy makes a ```signal``` event it's dripped into the gameloop.
+To run the project you need to install [Docker](https://www.docker.com/) and docker-compose
 
-**portfolio:** Is recieving the buy or sell orders from the strategies as a ```signal``` event. Now it only filters out the signals because each time the strategy component emits a new event it doesnt care about us being in a current order or not. So we only filter out saying that if we have bought and we get a sell signal we sell. And then we don't do anything until we get another buy signal. Then we emit an ```order``` event to the gameloop.
+If you want to run the bot live against bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path.
 
-**broker:** After the portfolio emits an ```order``` event this component should handle it both for papertrading and live with the broker. This is not implemented yet.
+First build the image by typing the following command from the root of the project
+
+`docker-compose build`
+
+Then to run the project for production run the following command 
+
+`docker-compose up`
+
+For running the project while developing including `HMR` run 
+
+`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+
+Then change a file in the `src` folder to verify that `HMR` is working
+
+To test the bot run
+
+`docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
+
+## Configuring the project
+
+To change the configuration for the project you have to go to the config file in `src/config/index.js` and change the variables.
+
+## References
+
+[event-driven backtesting](https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I)

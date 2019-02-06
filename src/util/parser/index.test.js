@@ -48,7 +48,7 @@ describe('Util/Parser', () => {
   it('should convert array database data to an array of arrays', () => {
     const dbDataArr = [{
       close: '0.0925',
-      close_time: '2018-01-24T19:09:03.063',
+      close_time: '2018-01-24T19:09:03.063+01:00',
       high: '0.0925',
       low: '0.0925',
       open: '0.0925',
@@ -56,7 +56,7 @@ describe('Util/Parser', () => {
     },
     {
       close: '0.0926',
-      close_time: '2018-01-24T19:10:03.063',
+      close_time: '2018-01-24T19:10:03.063+01:00',
       high: '0.0926',
       low: '0.0926',
       open: '0.0926',
@@ -75,7 +75,7 @@ describe('Util/Parser', () => {
       L: 8345,
       C: 8348,
       V: 3.51614549,
-      T: '2018-04-20T00:45:00',
+      T: '2018-04-20T00:45:00+02:00',
       BV: 29398.86160108,
     },
     {
@@ -84,7 +84,7 @@ describe('Util/Parser', () => {
       L: 8348,
       C: 8350,
       V: 2.59546932,
-      T: '2018-04-20T00:50:00',
+      T: '2018-04-20T00:50:00+02:00',
       BV: 21697.46074916 },
     ]
 

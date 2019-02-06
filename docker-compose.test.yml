@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  app:
+    build:
+      target: base
+    command: npm run test:staged
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+      - /usr/app/dist
