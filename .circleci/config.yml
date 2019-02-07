@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     machine: true
     working_directory: ~/repo
     steps:
