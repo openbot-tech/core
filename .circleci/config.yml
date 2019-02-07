@@ -5,7 +5,6 @@ jobs:
     working_directory: ~/repo
     steps:
         - checkout
-        - run: docker-compose build
-        - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml run app
+        - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml run -rm app
 
 
