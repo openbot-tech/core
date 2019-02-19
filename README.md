@@ -30,6 +30,8 @@ For running the project while developing including `HMR` run
 
 Then change a file in the `src` folder to verify that `HMR` is working
 
+here the difference between production and developing is how we build it with webpack and that production doesn't contain `HMR` or hot module reloading which means that any changes in the project would reload the bot. If you run the project for production, changes in the code wouldn't affect the bot execution.
+
 To test the bot run
 
 `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`

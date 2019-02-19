@@ -1,4 +1,12 @@
 {
+  "name": "openbot-core-migrations",
+  "version": "0.0.1",
+  "description": "OpenBot core db migrations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openbot-tech/core"
+  },
+  "license": "MIT",
   "scripts": {
     "migrate": "db-migrate up"
   },
