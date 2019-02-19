@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "proxy": "node ./index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "http-proxy-middleware": "^0.19.1"
+  }
+}

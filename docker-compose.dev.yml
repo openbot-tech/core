@@ -2,7 +2,14 @@ version: "3.2"
 services:
   app:
     command: npm run dev
+    depends_on:
+      - proxycontainer
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
       - /usr/app/dist
+    environment:
+      HTTP_PROXY: http://proxycontainer:8080
+      NO_PROXY: localhost,127.0.0.1
+  proxycontainer:
+    build: ./proxy
