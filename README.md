@@ -14,7 +14,11 @@ Then in the sam terminal to into the project
 
 To run the project you need to install [Docker](https://www.docker.com/) and docker-compose
 
-If you want to run the bot live against bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path.
+If you want to run the bot live against bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
+
+In a bash shell this can be done like this while running build
+
+`BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
 First build the image by typing the following command from the root of the project
 
@@ -37,6 +41,23 @@ To test the bot run
 ## Configuring the project
 
 To change the configuration for the project you have to go to the config file in `src/config/index.js` and change the variables.
+
+To run the bot live against the exchange set the following in the config file
+
+```
+export const BACKTEST = false
+export const PAPER_TRADE = false
+```
+
+if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
+
+To choose an strategy, you can in the config file set the
+
+```
+export const STRATEGY = 'BBANDS-RSI'
+```
+
+To the name of any strategy in the `src/core/strategy/strategies` folder - the strategy name is the name of the folder containing the strategy.
 
 ## References
 
