@@ -1,30 +1,44 @@
-# OpenBot Core
+# About
 
-OpenBot is an event-driven open source cryptocurrency trading bot built using Node.js and RxJS. Currently the only exchange implemented is [Bittrex](https://bittrex.com/), when backtesting data from [cryptowat.ch](https://cryptowat.ch/) API is used.
+Open bot is an event-driven open source cryptocurrency trading bot built using Node.js and RxJS.
 
-## Getting started
+**Exchanges**
 
-First clone the project to your local machine by typing in a terminal
+Currently the only exchange integrated is [Bittrex](https://bittrex.com/). 
 
-`git clone https://github.com/openbot-tech/core`
+**Backtesting** 
 
-Then in the sam terminal to into the project
+For backtesting the [cryptowat.ch](https://cryptowat.ch/) API is used.
 
-`cd core`
+# Prerequisits 
+
+### Docker
 
 To run the project you need to install [Docker](https://www.docker.com/) and docker-compose
 
-If you want to run the bot live against bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
+### Bittrex
 
-In a bash shell this can be done like this while running build
+If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
 
-`BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
+# Getting started
 
-First build the image by typing the following command from the root of the project
+1) Clone the project to your local machine by typing in your terminal
+
+`git clone https://github.com/openbot-tech/core`
+
+2) Now navigate to the open bot core by writing
+
+`cd core`
+
+3) First build the image by typing the following command from the root of the project
 
 `docker-compose build`
 
-Then to run the project for production run the following command
+4) Connect to your Bittrex API key, in a bash shell while running build
+
+`BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
+
+5) To run the project for production run the following command
 
 `docker-compose up`
 
@@ -51,7 +65,7 @@ export const PAPER_TRADE = false
 
 if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
 
-To choose an strategy, you can in the config file set the
+To choose a strategy, you can in the config file set the
 
 ```
 export const STRATEGY = 'BBANDS-RSI'
