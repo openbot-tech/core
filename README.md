@@ -17,7 +17,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 - If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under the "Authentication" section.
 
-# Installation
+# Setting up open bot
 
 ## 1) Clone the project to your local machine by typing in your terminal
 
@@ -31,7 +31,31 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose build`
 
-# Running the bot live
+## Configuring open bot
+
+1) Go to the config file in `src/config/index.js` and change the variables.
+
+2) To run the bot live against the exchange set the following in the config file
+
+```
+export const BACKTEST = false
+export const PAPER_TRADE = false
+```
+
+
+
+3) To choose a strategy, you can in the config file set the
+
+```
+export const STRATEGY = 'BBANDS-RSI'
+```
+
+To the name of any strategy in the `src/core/strategy/strategies` folder - the strategy name is the name of the folder containing the strategy.
+
+
+
+
+# Running open bot live on Bittrex
 
 ## 1) Make sure these parametres are included in the config file
 ```
@@ -47,11 +71,13 @@ export const PAPER_TRADE = false
 
 `docker-compose up`
 
-# Backtesting
+# Back test open bot
 
-# Papertrading
+if `BACKTEST` is set to `true` then the bot will run against the historic market chosen.
 
+# Paper trade with open bot
 
+if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
 
 # For developers
 
@@ -68,24 +94,3 @@ export const PAPER_TRADE = false
  `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
 2) Change a file in the `src` folder to verify that `HMR` is working
-
-## Configuring open bot
-
-1) Go to the config file in `src/config/index.js` and change the variables.
-
-2) To run the bot live against the exchange set the following in the config file
-
-```
-export const BACKTEST = false
-export const PAPER_TRADE = false
-```
-
-if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
-
-3) To choose a strategy, you can in the config file set the
-
-```
-export const STRATEGY = 'BBANDS-RSI'
-```
-
-To the name of any strategy in the `src/core/strategy/strategies` folder - the strategy name is the name of the folder containing the strategy.
