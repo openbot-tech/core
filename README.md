@@ -31,7 +31,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose build`
 
-## Configuring variables open bot
+# Configuring open bot variables
 
 Go to the config file in `src/config/index.js`. Here you will find the following parametres:
 
