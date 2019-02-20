@@ -15,7 +15,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 ### Bittrex
 
-- If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under the "Authentication" section.
+- If you want to run open bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under the "Authentication" section.
 
 # Setting up open bot
 
@@ -23,7 +23,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `git clone https://github.com/openbot-tech/core`
 
-## 2) Navigate to the open bot core directory by writing
+## 2) Navigate to open bot core directory by writing
 
 `cd core`
 
@@ -31,29 +31,27 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose build`
 
-## Configuring open bot
+## Configuring variables open bot
 
-1) Go to the config file in `src/config/index.js` and change the variables.
+Go to the config file in `src/config/index.js`. Here you will find the following parametres:
 
-2) To run the bot live against the exchange set the following in the config file
+### Trading mode
+Choose between
+- Backtesting
+- Paper testing
+- Running the bot live
 
-```
-export const BACKTEST = false
-export const PAPER_TRADE = false
-```
+### Time measures
+- Time frame (if backtest is chosen)
+- Backtest days (if backtest is chosen)
+- Retry order (to configure the order execution)
 
+### Market
+- Specify your market foreaxmple 'BTC-ETH' for Bitcoin / Ethereum market.
 
-
-3) To choose a strategy, you can in the config file set the
-
-```
-export const STRATEGY = 'BBANDS-RSI'
-```
-
-To the name of any strategy in the `src/core/strategy/strategies` folder - the strategy name is the name of the folder containing the strategy.
-
-
-
+### Strategy
+- Choose a premade strategy such as 'BBANDS-RSI' or set in your own custom strategy.
+- Each folder in `src/core/strategy/strategies` folder is a strategy you can choose from 
 
 # Running open bot live on Bittrex
 
@@ -83,7 +81,7 @@ export const PAPER_TRADE = false
 
 - Run `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 
-## Develop on bot while it is running
+## Develop on open bot while it is running
 
 - Include `HMR` and run
 
