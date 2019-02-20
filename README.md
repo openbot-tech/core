@@ -7,15 +7,15 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 # Prerequisits 
 
 ### OSX or Linux
-You need to run the both from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
+- You need to run the both from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
 
 ### Docker
 
-To run the project you need to install [Docker](https://www.docker.com/) including docker-compose
+- To run the project you need to install [Docker](https://www.docker.com/) including docker-compose
 
 ### Bittrex
 
-If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
+- If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
 
 # Getting started
 
