@@ -4,7 +4,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 - The only exchange integrated is [Bittrex](https://bittrex.com/).
 - For backtesting the [cryptowat.ch](https://cryptowat.ch/) API is used.
 
-# Prerequisits 
+# Requirements
 
 ### Use OSX/Linux
 - To run open bot you need a Unix bash shell from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
@@ -17,7 +17,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 - If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
 
-# Start running openbot via Bittrex
+# Installation
 
 ## 1) Clone the project to your local machine by typing in your terminal
 
