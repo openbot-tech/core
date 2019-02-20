@@ -67,30 +67,26 @@ export const PAPER_TRADE = false
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
-## 3) Is this also needed @kenneth?
+# Backtesting & paper trading
 
-`docker-compose up`
+## Backtesting
 
-# Back test open bot
+- If `BACKTEST` is set to `true` then the bot will run against the historic market chosen.
 
-if `BACKTEST` is set to `true` then the bot will run against the historic market chosen.
+## Paper trading
 
-# Paper trade with open bot
-
-if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
+- If `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
 
 # For developers
 
 ## Testing the bot
 
-1) Run
-
-`docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
+- Run `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 
 ## Develop on bot while it is running
 
-1) Include `HMR` run
+- Include `HMR` and run
 
  `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
-2) Change a file in the `src` folder to verify that `HMR` is working
+- Change a file in the `src` folder to verify that `HMR` is working
