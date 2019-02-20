@@ -77,7 +77,7 @@ export const PAPER_TRADE = false
 
 # For developers
 
-## Testing the bot
+## Running open bot tests
 
 - Run `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 
