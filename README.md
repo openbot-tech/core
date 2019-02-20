@@ -15,7 +15,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 ### Bittrex
 
-- If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
+- If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under the "Authentication" section.
 
 # Installation
 
