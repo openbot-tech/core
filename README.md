@@ -6,7 +6,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 # Requirements
 
-### Use OSX/Linux
+### OSX/Linux
 - To run open bot you need a Unix bash shell from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
 
 ### Docker
@@ -31,16 +31,28 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose build`
 
-## 4) Connect to your Bittrex API key
+# Backtesting
+
+# Papertesting
+
+# Running the bot live
+
+
+## 1) Make sure these parametres are included in the config file
+```
+export const BACKTEST = false
+export const PAPER_TRADE = false
+``` 
+
+## 2) Connect to your Bittrex API key by typing in the terminal
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
-## 5) Run the project for production by typing
+## 3) Is this also needed @kenneth?
 
 `docker-compose up`
 
-# Running open bot while developing:
-
+# Develop on bot while it is running
 
 1) Include `HMR` run
 
