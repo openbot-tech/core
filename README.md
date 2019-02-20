@@ -6,8 +6,8 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 # Prerequisits 
 
-### OSX or Linux
-- You need to run the both from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
+### Use OSX/Linux
+- To run open bot you need a Unix bash shell from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
 
 ### Docker
 
@@ -39,27 +39,26 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose up`
 
-# Run 
+# Running open bot while developing:
 
 
+1) Include `HMR` run
 
+ `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
+2) Change a file in the `src` folder to verify that `HMR` is working
 
-For running the project while developing including `HMR` run
+# Testing the bot
 
-`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-
-Then change a file in the `src` folder to verify that `HMR` is working
-
-To test the bot run
+1) Run
 
 `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 
 ## Configuring the project
 
-To change the configuration for the project you have to go to the config file in `src/config/index.js` and change the variables.
+1) Go to the config file in `src/config/index.js` and change the variables.
 
-To run the bot live against the exchange set the following in the config file
+2) To run the bot live against the exchange set the following in the config file
 
 ```
 export const BACKTEST = false
@@ -68,7 +67,7 @@ export const PAPER_TRADE = false
 
 if `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
 
-To choose a strategy, you can in the config file set the
+3) To choose a strategy, you can in the config file set the
 
 ```
 export const STRATEGY = 'BBANDS-RSI'
