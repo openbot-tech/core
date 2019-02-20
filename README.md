@@ -17,27 +17,33 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 - If you want to run the bot live against Bittrex you need to have `BITTREX_API_KEY` and `BITTREX_API_SECRET` in your path, look at how to [Obtain an API key](https://bittrex.github.io/api/v1-1) under Authentication section.
 
-# Getting started
+# Start running openbot via Bittrex
 
-1) Clone the project to your local machine by typing in your terminal
+## 1) Clone the project to your local machine by typing in your terminal
 
 `git clone https://github.com/openbot-tech/core`
 
-2) Now navigate to the open bot core by writing
+## 2) Navigate to the open bot core directory by writing
 
 `cd core`
 
-3) First build the image by typing the following command from the root of the project
+## 3) Build the docker image by typing
 
 `docker-compose build`
 
-4) Connect to your Bittrex API key, in a bash shell while running build
+## 4) Connect to your Bittrex API key
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
-5) To run the project for production run the following command
+## 5) Run the project for production by typing
 
 `docker-compose up`
+
+# Run 
+
+
+
+
 
 For running the project while developing including `HMR` run
 
