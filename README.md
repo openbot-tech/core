@@ -6,9 +6,12 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 # Prerequisits 
 
+### OSX or Linux
+You need to run the both from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
+
 ### Docker
 
-To run the project you need to install [Docker](https://www.docker.com/) and docker-compose
+To run the project you need to install [Docker](https://www.docker.com/) including docker-compose
 
 ### Bittrex
 
