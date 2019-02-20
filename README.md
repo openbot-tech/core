@@ -31,12 +31,7 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 `docker-compose build`
 
-# Backtesting
-
-# Papertesting
-
 # Running the bot live
-
 
 ## 1) Make sure these parametres are included in the config file
 ```
@@ -44,7 +39,7 @@ export const BACKTEST = false
 export const PAPER_TRADE = false
 ``` 
 
-## 2) Connect to your Bittrex API key by typing in the terminal
+## 2) Connect your Bittrex API key by typing
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
@@ -52,7 +47,21 @@ export const PAPER_TRADE = false
 
 `docker-compose up`
 
-# Develop on bot while it is running
+# Backtesting
+
+# Papertrading
+
+
+
+# For developers
+
+## Testing the bot
+
+1) Run
+
+`docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
+
+## Develop on bot while it is running
 
 1) Include `HMR` run
 
@@ -60,13 +69,7 @@ export const PAPER_TRADE = false
 
 2) Change a file in the `src` folder to verify that `HMR` is working
 
-# Testing the bot
-
-1) Run
-
-`docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
-
-## Configuring the project
+## Configuring open bot
 
 1) Go to the config file in `src/config/index.js` and change the variables.
 
@@ -86,7 +89,3 @@ export const STRATEGY = 'BBANDS-RSI'
 ```
 
 To the name of any strategy in the `src/core/strategy/strategies` folder - the strategy name is the name of the folder containing the strategy.
-
-## References
-
-[event-driven backtesting](https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I)
