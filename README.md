@@ -65,6 +65,11 @@ export const PAPER_TRADE = false
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
+
+## 3) Success
+
+![alt text](https://github.com/openbot-tech/core/blob/master/images/bot_connected.png)
+
 # Creating your own strategy
 
 - To create your own strategy take a look at the template implementation in `src/strategy/strategies/TEMPLATE`
