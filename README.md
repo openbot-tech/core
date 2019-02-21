@@ -1,4 +1,4 @@
-# About
+![alt text](https://github.com/openbot-tech/core/blob/master/images/openbot.png)
 
 Open bot is an event-driven open source cryptocurrency trading bot built using Node.js and RxJS.
 - The only exchange integrated is [Bittrex](https://bittrex.com/).
