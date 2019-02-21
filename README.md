@@ -85,6 +85,15 @@ export const PAPER_TRADE = false
 
 - Include `HMR` and run
 
- `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+## Creating your own strategy
 
-- Change a file in the `src` folder to verify that `HMR` is working
+To create your own strategy take a look at the template implementation in `src/strategy/strategies/TEMPLATE`
+
+When you add a new folder with the strategy as `index.js` then webpack will make that folder available as a module.
+
+So if we add an folder called `MY_NEW_STRATEGY` in `src/strategy/strategies` you can then set the `STRATEGY` value in the config file to `'MY_NEW_STRATEGY'`.
+
+## References
+
+[event-driven backtesting](https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I)
+[Tulip Indicators](https://tulipindicators.org/)
