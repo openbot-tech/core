@@ -1,10 +1,15 @@
 {
-  "name": "rxjs-trading-bot",
+  "name": "openbot-core",
   "version": "0.0.1",
   "engines": {
     "node": "8.2.1"
   },
-  "description": "RxJS Trading bot",
+  "description": "OpenBot core",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openbot-tech/core"
+  },
+  "license": "MIT",
   "scripts": {
     "test:staged": "NODE_ENV=test jest --silent",
     "lint:staged": "lint-staged",
