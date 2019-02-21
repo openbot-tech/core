@@ -33,11 +33,11 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 # Configuring open bot variables
 
-Go to the config file in `src/config/index.js`. 
-
-![alt text](https://github.com/openbot-tech/core/blob/master/images/variables.png)
+- Go to the config file in `src/config/index.js`. 
 
 Here you will find the following variables:
+
+![alt text](https://github.com/openbot-tech/core/blob/master/images/Variables.png)
 
 ### Trading mode
 Choose between
