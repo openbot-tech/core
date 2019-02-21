@@ -65,6 +65,15 @@ export const PAPER_TRADE = false
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
+# Creating your own strategy
+
+- To create your own strategy take a look at the template implementation in `src/strategy/strategies/TEMPLATE`
+
+- When you add a new folder with the strategy as `index.js` then webpack will make that folder available as a module.
+
+- So if we add an folder called `MY_NEW_STRATEGY` in `src/strategy/strategies` you can then set the `STRATEGY` value in the config file to `'MY_NEW_STRATEGY'`.
+
+
 # Backtesting & paper trading
 
 ## Backtesting
@@ -85,8 +94,6 @@ The difference between production and developing is how we build it with webpack
 
 - Include `HMR` and run
 
- `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-
 - Change a file in the `src` folder to verify that `HMR` is working
 
 ## Running open bot tests
@@ -94,3 +101,10 @@ The difference between production and developing is how we build it with webpack
 To run the open bot test scripts run
 
 - `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
+=======
+
+
+## References
+
+[event-driven backtesting](https://www.quantstart.com/articles/Event-Driven-Backtesting-with-Python-Part-I)
+[Tulip Indicators](https://tulipindicators.org/)
