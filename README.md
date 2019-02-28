@@ -112,7 +112,7 @@ https://rxjs-trading-bot-client.herokuapp.com/
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/chart.png)
 
-## 5) Analyze your trades and traderesult in the terminal
+## 5) Analyze your trades in the terminal
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/terminal.png)
 
