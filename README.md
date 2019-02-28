@@ -111,6 +111,13 @@ https://rxjs-trading-bot-client.herokuapp.com/
 
 Write `docker-compose up --build` in your terminal
 
+![alt text](https://github.com/openbot-tech/core/blob/master/images/chart.png)
+
+
+![alt text](https://github.com/openbot-tech/core/blob/master/images/terminal.png)
+
+
+
 # For developers
 
 The difference between production and developing is how we build it with webpack and that production doesn't contain `HMR` or hot module reloading which means that any changes in the project would reload the bot. If you run the project for production, changes in the code wouldn't affect the bot execution.
