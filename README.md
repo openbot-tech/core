@@ -69,7 +69,6 @@ export const PAPER_TRADE = false
 
 `BITTREX_API_KEY=<your api key> BITTREX_API_SECRET=<your api secret> docker-compose up --build`
 
-
 ## 3) Success
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/bot_connected.png)
@@ -91,11 +90,7 @@ export const PAPER_TRADE = false
 
 - `docker-compose build` 
 
-## 3) Open the Chart UI from your browser
-
-https://rxjs-trading-bot-client.herokuapp.com/ 
-
-## 4) Configure your parametres
+## 2) Configure your parametres
 
 - Set either 'BACKTEST' or 'PAPER_TRADE' to 'true' in `src/config/index.js`
 - Choose the market, strategy, time and candles you want to backtest or papertrade
@@ -107,15 +102,19 @@ https://rxjs-trading-bot-client.herokuapp.com/
 
 - If `PAPER_TRADE` is set to `true` then the bot will run against the Bittrex socket connection but not submit any orders to the exchange.
 
-## 5) Start backtesting or papertrade
+## 3) Start backtesting or papertrade
 
 Write `docker-compose up --build` in your terminal
 
+## 4) Open the Chart UI from your browser
+
+https://rxjs-trading-bot-client.herokuapp.com/ 
+
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/chart.png)
 
+## 5) Analyze your trades and traderesult in the terminal
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/terminal.png)
-
 
 
 # For developers
@@ -135,7 +134,6 @@ To run the open bot test scripts run
 
 - `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 =======
-
 
 ## References
 
