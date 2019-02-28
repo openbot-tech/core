@@ -85,9 +85,11 @@ export const PAPER_TRADE = false
 
 # Backtesting & via web UI
 
-## 1) Write `cd core` in your terminal
+## 1) Open the bot from your terminal
 
-## 2) Write `docker-compose build` in your terminal
+- `docker-compose build`
+
+- `docker-compose build` in your terminal
 
 ## 3) Configure your parametres
 
