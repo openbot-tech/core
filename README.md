@@ -87,11 +87,15 @@ export const PAPER_TRADE = false
 
 ## 1) Open the bot from your terminal
 
-- `docker-compose build`
+- `cd core`
 
-- `docker-compose build` in your terminal
+- `docker-compose build` 
 
-## 3) Configure your parametres
+## 3) Open the Chart UI from your browser
+
+https://rxjs-trading-bot-client.herokuapp.com/ 
+
+## 4) Configure your parametres
 
 - Set either 'BACKTEST' or 'PAPER_TRADE' to 'true' in `src/config/index.js`
 - Choose the market, strategy, time and candles you want to backtest or papertrade
@@ -103,17 +107,11 @@ export const PAPER_TRADE = false
 
 - If `PAPER_TRADE` is set to `true` then the bot will run against the Bittrex socket connection but not submit any orders to the exchange.
 
-## 4) Open the Chart UI from your browser
-
-https://rxjs-trading-bot-client.herokuapp.com/ 
-
 ## 5) Start backtesting or papertrade
 
-Write `docker-compose build` in your terminal
-
+Write `docker-compose up --build` in your terminal
 
 # For developers
-
 
 The difference between production and developing is how we build it with webpack and that production doesn't contain `HMR` or hot module reloading which means that any changes in the project would reload the bot. If you run the project for production, changes in the code wouldn't affect the bot execution.
 
