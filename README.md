@@ -83,15 +83,32 @@ export const PAPER_TRADE = false
 - So if we add an folder called `MY_NEW_STRATEGY` in `src/strategy/strategies` you can then set the `STRATEGY` value in the config file to `'MY_NEW_STRATEGY'`.
 
 
-# Backtesting & paper trading
+# Backtesting & via web UI
 
-## Backtesting
+## 1) Write `cd core` in your terminal
 
+## 2) Write `docker-compose build` in your terminal
+
+## 3) Configure your parametres
+
+- Set either 'BACKTEST' or 'PAPER_TRADE' to 'true' in `src/config/index.js`
+- Choose the market, strategy, time and candles you want to backtest or papertrade
+
+### 
 - If `BACKTEST` is set to `true` then the bot will run against the historic market chosen.
 
-## Paper trading
+### Paper trading
 
-- If `PAPER_TRADE` is set to `true` then the bot will run against a socket connection but not submit any orders to the exchange.
+- If `PAPER_TRADE` is set to `true` then the bot will run against the Bittrex socket connection but not submit any orders to the exchange.
+
+## 4) Open the Chart UI from your browser
+
+https://rxjs-trading-bot-client.herokuapp.com/ 
+
+## 5) Start backtesting or papertrade
+
+Write `docker-compose build` in your terminal
+
 
 # For developers
 
