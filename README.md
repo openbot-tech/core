@@ -82,7 +82,7 @@ export const PAPER_TRADE = false
 - So if we add an folder called `MY_NEW_STRATEGY` in `src/strategy/strategies` you can then set the `STRATEGY` value in the config file to `'MY_NEW_STRATEGY'`.
 
 
-# Backtesting & via web UI
+# Backtesting & Paper trading via web UI
 
 ## 1) Open the bot from your terminal
 
