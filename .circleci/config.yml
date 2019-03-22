@@ -10,6 +10,6 @@ jobs:
         steps:
           - checkout
           - run: docker-compose up -d
-          - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm app npm run test:coverage
+          - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm app
           - codecov/upload:
             path: ./coverage/coverage-final.json
