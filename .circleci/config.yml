@@ -3,9 +3,9 @@ orbs:
   codecov: circleci/codecov@0.0.4
 jobs:
   build:
+    machine: true
     steps:
       - test
-        machine: true
         working_directory: ~/repo
         steps:
           - checkout
