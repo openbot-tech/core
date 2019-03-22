@@ -1,13 +1,17 @@
+[![Coverage badge](https://codecov.io/gh/openbot-tech/core/branch/master/graphs/badge.svg)](https://codecov.io/gh/openbot-tech/core)
+
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/openbot.png)
 
 Open bot is an event-driven open source cryptocurrency trading bot built using Node.js and RxJS.
+
 - The only exchange integrated is [Bittrex](https://bittrex.com/).
 - For backtesting the [cryptowat.ch](https://cryptowat.ch/) API is used.
 
 # Requirements
 
 ### OSX/Linux
-- To run open bot you need a Unix bash shell from OSX or Linux. If you are using Microsoft, setup a virtual machine. 
+
+- To run open bot you need a Unix bash shell from OSX or Linux. If you are using Microsoft, setup a virtual machine.
 
 ### Docker
 
@@ -33,37 +37,43 @@ Open bot is an event-driven open source cryptocurrency trading bot built using N
 
 # Configuring open bot variables
 
-- Go to the config file in `src/config/index.js`. 
+- Go to the config file in `src/config/index.js`.
 
 Here you will find the following variables:
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/Variables.png)
 
 ### Trading mode
+
 Choose between
+
 - Backtesting
 - Paper testing
 - Running the bot live
 
 ### Time measures
+
 - Time frame (if backtest is chosen)
 - Backtest days (if backtest is chosen)
 - Retry order (to configure the order execution)
 
 ### Market
+
 - Specify your market foreaxmple 'BTC-ETH' for Bitcoin / Ethereum market.
 
 ### Strategy
+
 - Choose a premade strategy such as 'BBANDS-RSI' or set in your own custom strategy.
-- Each folder in `src/core/strategy/strategies` folder is a strategy you can choose from 
+- Each folder in `src/core/strategy/strategies` folder is a strategy you can choose from
 
 # Running open bot live on Bittrex
 
 ## 1) Make sure these parametres are included in the config file
+
 ```
 export const BACKTEST = false
 export const PAPER_TRADE = false
-``` 
+```
 
 ## 2) Connect your Bittrex API key by typing
 
@@ -81,21 +91,21 @@ export const PAPER_TRADE = false
 
 - So if we add an folder called `MY_NEW_STRATEGY` in `src/strategy/strategies` you can then set the `STRATEGY` value in the config file to `'MY_NEW_STRATEGY'`.
 
-
 # Backtesting & Paper trading via web UI
 
 ## 1) Open the bot from your terminal
 
 - `cd core`
 
-- `docker-compose build` 
+- `docker-compose build`
 
 ## 2) Configure your parametres
 
 - Set either 'BACKTEST' or 'PAPER_TRADE' to 'true' in `src/config/index.js`
 - Choose the market, strategy, time and candles you want to backtest or papertrade
 
-### 
+###
+
 - If `BACKTEST` is set to `true` then the bot will run against the historic market chosen.
 
 ### Paper trading
@@ -108,7 +118,7 @@ Write `docker-compose up --build` in your terminal
 
 ## 4) Open the Chart UI from your browser
 
-https://rxjs-trading-bot-client.herokuapp.com/ 
+https://rxjs-trading-bot-client.herokuapp.com/
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/chart.png)
 
@@ -116,11 +126,9 @@ https://rxjs-trading-bot-client.herokuapp.com/
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/terminal.png)
 
-
 # For developers
 
 The difference between production and developing is how we build it with webpack and that production doesn't contain `HMR` or hot module reloading which means that any changes in the project would reload the bot. If you run the project for production, changes in the code wouldn't affect the bot execution.
-
 
 ## Develop on open bot while it is running
 
@@ -132,8 +140,7 @@ The difference between production and developing is how we build it with webpack
 
 To run the open bot test scripts run
 
-- `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
-=======
+- # `docker-compose -f docker-compose.yml -f docker-compose.test.yml up`
 
 ## References
 

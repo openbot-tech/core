@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   app:
-    command: npm run test:staged
+    command: npm run test:coverage
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
