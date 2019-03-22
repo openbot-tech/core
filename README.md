@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/openbot-tech/core.svg?style=svg)](https://circleci.com/gh/openbot-tech/core)
 [![Coverage badge](https://codecov.io/gh/openbot-tech/core/branch/master/graphs/badge.svg)](https://codecov.io/gh/openbot-tech/core)
 
 ![alt text](https://github.com/openbot-tech/core/blob/master/images/openbot.png)
