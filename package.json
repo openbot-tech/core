@@ -11,7 +11,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "test:staged": "NODE_ENV=test jest --silent",
     "lint:staged": "lint-staged",
     "start": "node dist/index.js",
     "dev": "npm run build:watch | nodemon --watch dist/ dist/index.js",
