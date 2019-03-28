@@ -12,6 +12,7 @@
   "license": "MIT",
   "scripts": {
     "lint:staged": "lint-staged",
+    "lint": "eslint .",
     "start": "node dist/index.js",
     "dev": "npm run build:watch | nodemon --watch dist/ dist/index.js",
     "test": "NODE_ENV=test jest --silent --watch --coverage",
