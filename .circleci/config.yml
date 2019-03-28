@@ -8,6 +8,11 @@ jobs:
     steps:
       - checkout
       - run: docker-compose up -d
-      - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm app
+      - run:
+          name: check linting
+          command: docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm app npm run lint
+      - run:
+          name: run tests
+          command: docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm app
       - codecov/upload:
           path: ./coverage/coverage-final.json
