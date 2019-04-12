@@ -19,8 +19,20 @@ export const PAPER_TRADE = false
 export const PAIR = 'BTC-ETH'
 export const STRATEGY = 'BBANDS-RSI'
 export const RETRY_ORDER_TIME = 5000
+export const RESTART_SESSION_AFTER_SECONDS = TIME_FRAME
 export let SESSION_ID = null // eslint-disable-line import/no-mutable-exports
 
-export const newSession = async (name) => {
-  SESSION_ID = await sessionQuery([name, PAIR, TIME_FRAME, BACKTEST, PAPER_TRADE])
+export const newSession = async (
+  name = 'name',
+  pair = PAIR,
+  timeFrame = TIME_FRAME,
+  backtest = BACKTEST,
+  paperTrade = PAPER_TRADE,
+  strategy = STRATEGY,
+  restartSessionAfterSeconds = RESTART_SESSION_AFTER_SECONDS,
+) => {
+  SESSION_ID = await sessionQuery(
+    [name, pair, timeFrame, backtest, paperTrade, strategy],
+    restartSessionAfterSeconds,
+  )
 }
