@@ -12,11 +12,34 @@ const query = async (text, params) => {
   return queryData.rows
 }
 
-export const sessionQuery = async (params) => {
+export const restartSessionsQuery = async (params, restartAfterSeconds) => {
+  await query('set timezone TO \'UTC\'')
+  const sessionRow = await query(
+    `SELECT sessions.id FROM sessions 
+    LEFT JOIN candles 
+    ON sessions.id = candles.session_id 
+    WHERE candles.close_time >= NOW() - INTERVAL '${restartAfterSeconds} seconds'
+    AND sessions.name = $1
+    AND sessions.pair = $2
+    AND sessions.time_frame = $3
+    AND sessions.backtest = $4
+    AND sessions.paper_trade = $5
+    AND sessions.strategy = $6
+    LIMIT 1`,
+    params,
+  )
+
+  return sessionRow.length > 0 && sessionRow[0] && sessionRow[0].id
+}
+
+export const sessionQuery = async (params, restartAfterSeconds) => {
+  const restartSessionRow = await restartSessionsQuery(params, restartAfterSeconds)
+  if (restartSessionRow) return restartSessionRow
+
   const sessionRow = await query(
     `INSERT INTO sessions 
-    (name, pair, time_frame, backtest, paper_trade) 
-    values ($1, $2, $3, $4, $5)
+    (name, pair, time_frame, backtest, paper_trade, strategy) 
+    values ($1, $2, $3, $4, $5, $6)
     RETURNING *`,
     params,
   )
