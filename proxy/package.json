@@ -3,7 +3,7 @@
     "proxy": "node ./index.js"
   },
   "dependencies": {
-    "express": "^4.16.4",
-    "http-proxy-middleware": "^0.19.1"
+    "http-proxy": "^1.17.0",
+    "pem": "^1.14.2"
   }
 }

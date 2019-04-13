@@ -4,12 +4,8 @@ import getMarketData from 'Core/market'
 import runStrategy from 'Core/strategy'
 import portfolioManager from 'Core/portfolio'
 import executeOrder from 'Core/broker'
-import axios from 'axios'
 
 const runBot = async (name) => {
-  const data = await axios.get('http://www.example.org')
-  console.log('proxied request', data)
-  return
   // we start a new session and await a sessionId
   await newSession(name)
 

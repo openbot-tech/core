@@ -1,10 +1,27 @@
-const express = require('express')
-const proxy = require('http-proxy-middleware')
+const https = require('https')
+const httpProxy = require('http-proxy')
+const pem = require('pem')
 
-const app = express()
+pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
+  if (err) {
+    throw err
+  }
+  const httpsOptions = {
+    key: keys.serviceKey,
+    cert: keys.certificate,
+  }
 
-app.use('/', proxy({ target: 'http://jsonplaceholder.typicode.com/posts', changeOrigin: true, logLevel: 'debug' }))
+  httpProxy.createServer({
+    target: 'https://localhost:8001',
+    ssl: httpsOptions,
+    changeOrigin: true,
+    secure: true,
+  }).listen(8010)
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(8080)
+  https.createServer(httpsOptions, (req, res) => {
+    console.log('here here')
+    res.writeHead(200, { 'Content-Type': 'text/plain' })
+    res.write('hello https\n')
+    res.end()
+  }).listen(8001)
+})
