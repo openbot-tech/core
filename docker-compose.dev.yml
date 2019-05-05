@@ -4,14 +4,24 @@ services:
     command: npm run dev
     depends_on:
       - proxy
+      - mock
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
       - /usr/app/dist
+    ports:
+      - "9229:9229"
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: 0
-      HTTPS_PROXY: https://proxy:8001
+      HTTP_PROXY: http://proxy:8000
+      HTTPS_PROXY: http://proxy:8001
       NO_PROXY: localhost,127.0.0.1
+  mock:
+    build: ./mock
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./mock/src:/data
   proxy:
     build: ./proxy
     volumes:
