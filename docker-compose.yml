@@ -21,6 +21,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: 'rxjs_trading_bot'
   migration: 
+    command: sh -c '/usr/app/migrations/wait-for postgres:5432 -- npm run migrate'
     build: ./migrations
     depends_on:
       - postgres

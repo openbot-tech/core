@@ -8,4 +8,7 @@ RUN npm install
 
 COPY . ./migrations
 
+# wait-for script permissions
+RUN ["chmod", "+x", "/usr/app/migrations/wait-for"]
+
 CMD [ "npm", "run", "migrate" ]
