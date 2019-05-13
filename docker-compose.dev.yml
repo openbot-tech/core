@@ -5,6 +5,7 @@ services:
     depends_on:
       - proxy
       - mock
+      - nginx
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
@@ -13,9 +14,9 @@ services:
       - "9229:9229"
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: 0
-      HTTP_PROXY: http://proxy:8000
-      HTTPS_PROXY: http://proxy:8001
-      NO_PROXY: localhost,127.0.0.1
+      HTTP_PROXY: http://nginx:8080
+      #HTTPS_PROXY: https://nginx:8080
+      #NO_PROXY: localhost,127.0.0.1
   mock:
     build: ./mock
     ports:
@@ -24,5 +25,11 @@ services:
       - ./mock/src:/data
   proxy:
     build: ./proxy
+    depends_on:
+      - mock
     volumes:
       - ./proxy:/usr/app
+  nginx:
+    image: nginx:1.16-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
